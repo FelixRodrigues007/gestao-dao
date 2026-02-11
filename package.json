@@ -1,0 +1,6 @@
+{
+  "name": "gestao-dao",
+  "version": "1.0.0",
+  "description": "LiqPay DAO Treasury Command Center",
+  "private": true
+}
