@@ -144,7 +144,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .m-tag.up{background:var(--green-20);color:var(--green)}.m-tag.down{background:var(--red-20);color:var(--red)}
 
 /* Cards */
-.card{background:var(--abyss);border:1px solid var(--edge);border-radius:var(--r);margin-bottom:16px;overflow:hidden}
+.card{background:var(--abyss);border:1px solid var(--edge);border-radius:var(--r);margin-bottom:16px}
 .card-h{padding:12px 16px;border-bottom:1px solid var(--edge);display:flex;align-items:center;justify-content:space-between}
 .card-t{font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
 .card-b{padding:16px}
@@ -227,6 +227,9 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .tip-wrap:hover .tip-box{visibility:visible;opacity:1}
 .tip-box strong{color:var(--gold);font-weight:700}
 .tip-box em{color:var(--orange);font-style:normal}
+/* Tooltip below variant */
+.tip-down .tip-box{bottom:auto;top:calc(100% + 8px)}
+.tip-down .tip-box::after{top:auto;bottom:100%;border-top-color:transparent;border-bottom-color:var(--slate)}
 
 /* ─── SIMULATOR ─── */
 .sim-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
@@ -422,7 +425,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
         <div class="health-top">
           <div>
             <span style="font-size:10px;color:var(--ash);font-weight:700;text-transform:uppercase;letter-spacing:1px">Saúde do Colateral</span>
-            <span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box"><strong>Saúde do Colateral</strong> mede quão segura está sua posição de 0 a 100. Considera o <em>LTV efetivo</em> (incluindo juros), a distância até a liquidação e a margem de segurança. Abaixo de 40 = perigo, 40–70 = atenção, acima de 70 = seguro.</span></span>
+            <span class="tip-wrap tip-down"><span class="tip-btn">?</span><span class="tip-box"><strong>Saúde do Colateral</strong> mede quão segura está sua posição de 0 a 100. Considera o <em>LTV efetivo</em> (incluindo juros), a distância até a liquidação e a margem de segurança. Abaixo de 40 = perigo, 40–70 = atenção, acima de 70 = seguro.</span></span>
             <span class="health-score" id="healthScore">--</span>
           </div>
           <span class="health-label" id="healthLabel">--</span>
@@ -434,22 +437,22 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
       <!-- Metrics -->
       <div class="metrics">
         <div class="m-card c-gold">
-          <div class="m-label">BTC Necessário<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box">Quantidade de <strong>BTC que a Bybit exige como colateral</strong> para manter o empréstimo no LTV target configurado. Calculado como: <em>Dívida USDT ÷ (LTV × Preço BTC)</em>.</span></span></div>
+          <div class="m-label">BTC Necessário<span class="tip-wrap tip-down"><span class="tip-btn">?</span><span class="tip-box">Quantidade de <strong>BTC que a Bybit exige como colateral</strong> para manter o empréstimo no LTV target configurado. Calculado como: <em>Dívida USDT ÷ (LTV × Preço BTC)</em>.</span></span></div>
           <div class="m-val" id="mBtc">--</div>
           <div class="m-sub" id="mBtcSub">--</div>
         </div>
         <div class="m-card c-green">
-          <div class="m-label">Colateral USDT<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box">Valor do seu colateral em <strong>USDT (dólar digital)</strong>. É o BTC travado × preço BTC/USDT atual. A Bybit calcula liquidação nesta moeda.</span></span></div>
+          <div class="m-label">Colateral USDT<span class="tip-wrap tip-down"><span class="tip-btn">?</span><span class="tip-box">Valor do seu colateral em <strong>USDT (dólar digital)</strong>. É o BTC travado × preço BTC/USDT atual. A Bybit calcula liquidação nesta moeda.</span></span></div>
           <div class="m-val" id="mUsdt">--</div>
           <div class="m-sub" id="mUsdtSub">--</div>
         </div>
         <div class="m-card c-blue">
-          <div class="m-label">Colateral BRL<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box">Valor do colateral convertido para <strong>Reais</strong>. Oscila com BTC e câmbio do dólar. Este é o valor "real" que protege seu empréstimo.</span></span></div>
+          <div class="m-label">Colateral BRL<span class="tip-wrap tip-down"><span class="tip-btn">?</span><span class="tip-box">Valor do colateral convertido para <strong>Reais</strong>. Oscila com BTC e câmbio do dólar. Este é o valor "real" que protege seu empréstimo.</span></span></div>
           <div class="m-val" id="mBrl">--</div>
           <div class="m-sub" id="mBrlSub">--</div>
         </div>
         <div class="m-card c-red">
-          <div class="m-label">Liquidação<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box"><strong>Preço de liquidação Bybit.</strong> Se o BTC cair até este valor, a Bybit vende seu colateral automaticamente (LTV 92%). Inclui juros acumulados. <em>Margin call acontece no LTV 85%.</em></span></span></div>
+          <div class="m-label">Liquidação<span class="tip-wrap tip-down"><span class="tip-btn">?</span><span class="tip-box"><strong>Preço de liquidação Bybit.</strong> Se o BTC cair até este valor, a Bybit vende seu colateral automaticamente (LTV 92%). Inclui juros acumulados. <em>Margin call acontece no LTV 85%.</em></span></span></div>
           <div class="m-val" id="mLiq">--</div>
           <div class="m-sub" id="mLiqSub">--</div>
         </div>
