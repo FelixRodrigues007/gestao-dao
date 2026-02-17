@@ -218,34 +218,45 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 
 .empty-state{text-align:center;padding:30px 0;color:var(--mist);font-size:11px}
 
+/* ─── TOOLTIPS ─── */
+.tip-wrap{position:relative;display:inline-flex}
+.tip-btn{width:18px;height:18px;border-radius:50%;background:var(--steel);border:1px solid var(--edge);color:var(--mist);font-size:10px;font-weight:700;cursor:help;display:inline-flex;align-items:center;justify-content:center;margin-left:6px;transition:.2s;flex-shrink:0;font-family:var(--font)}
+.tip-btn:hover{background:var(--gold-10);border-color:var(--gold);color:var(--gold)}
+.tip-box{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);width:280px;padding:12px 14px;background:var(--slate);border:1.5px solid var(--gold-20);border-radius:var(--rs);font-size:11px;line-height:1.6;color:var(--silver);box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:100;pointer-events:none;transition:.2s}
+.tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--slate)}
+.tip-wrap:hover .tip-box{visibility:visible;opacity:1}
+.tip-box strong{color:var(--gold);font-weight:700}
+.tip-box em{color:var(--orange);font-style:normal}
+
 /* ─── SIMULATOR ─── */
 .sim-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .sim-actions{display:flex;gap:8px;flex-wrap:wrap}
 .sim-grid{display:grid;grid-template-columns:1fr;gap:0;margin-top:12px}
-.sim-row{display:grid;grid-template-columns:140px 1fr 1fr 1fr 1fr 100px 50px;gap:0;align-items:center;border-bottom:1px solid var(--edge);transition:background .15s}
+.sim-row{display:grid;grid-template-columns:120px 90px 100px 110px 100px 100px 90px 40px;gap:0;align-items:center;border-bottom:1px solid var(--edge);transition:background .15s}
 .sim-row:hover{background:rgba(240,185,11,.02)}
 .sim-row.sim-head-row{background:var(--deep);position:sticky;top:0;z-index:2}
 .sim-row.sim-head-row .sim-cell{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mist);padding:10px 10px}
 .sim-cell{padding:10px 10px;font-family:var(--mono);font-size:11px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sim-inp{width:100%;padding:7px 8px;background:var(--steel);border:1.5px solid var(--edge);border-radius:5px;color:var(--white);font-family:var(--mono);font-size:12px;font-weight:700;transition:.15s;text-align:right}
 .sim-inp:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 2px var(--gold-10)}
+.sim-inp.usdt-inp:focus{border-color:var(--cyan);box-shadow:0 0 0 2px rgba(0,210,255,.1)}
 .sim-remove{background:none;border:none;color:var(--mist);cursor:pointer;font-size:14px;padding:4px;border-radius:4px;transition:.15s}
 .sim-remove:hover{color:var(--red);background:var(--red-10)}
 .sim-row.positive{background:rgba(0,230,138,.03)}.sim-row.negative{background:rgba(255,59,92,.03)}
 .sim-exposure{font-weight:700;font-size:12px}
 .sim-exposure.up{color:var(--green)}.sim-exposure.down{color:var(--red)}.sim-exposure.neutral{color:var(--ash)}
 .sim-ltv{font-weight:700}.sim-ltv.safe{color:var(--green)}.sim-ltv.caution{color:var(--orange)}.sim-ltv.danger{color:var(--red)}
-.sim-chart-wrap{height:240px;margin-top:16px}
+.sim-chart-wrap{height:380px;margin-top:16px;position:relative}
 .sim-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
 .sim-sum-card{background:var(--deep);border-radius:var(--rs);padding:12px 14px;border-top:2px solid}
-.sim-sum-card.c1{border-color:var(--green)}.sim-sum-card.c2{border-color:var(--red)}.sim-sum-card.c3{border-color:var(--gold)}.sim-sum-card.c4{border-color:var(--purple)}
+.sim-sum-card.c1{border-color:var(--gold)}.sim-sum-card.c2{border-color:var(--red)}.sim-sum-card.c3{border-color:var(--green)}.sim-sum-card.c4{border-color:var(--purple)}
 .sim-sum-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mist);margin-bottom:6px}
 .sim-sum-val{font-family:var(--mono);font-size:16px;font-weight:700}
 .sim-presets{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .sim-preset{padding:5px 10px;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--edge);background:var(--steel);color:var(--silver);font-family:var(--mono);transition:.15s}
 .sim-preset:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-10)}
-@media(max-width:1200px){.sim-row{grid-template-columns:110px repeat(5,1fr) 40px}.sim-summary{grid-template-columns:1fr 1fr}}
-@media(max-width:768px){.sim-row{grid-template-columns:90px repeat(3,1fr) 40px}.sim-row .sim-cell:nth-child(4),.sim-row .sim-cell:nth-child(5){display:none}.sim-summary{grid-template-columns:1fr}}
+@media(max-width:1200px){.sim-row{grid-template-columns:100px 80px 90px 100px 90px 90px 80px 36px}.sim-summary{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.sim-row{grid-template-columns:90px 70px 1fr 1fr 40px}.sim-row .sim-cell:nth-child(3),.sim-row .sim-cell:nth-child(5),.sim-row .sim-cell:nth-child(6){display:none}.sim-summary{grid-template-columns:1fr}}
 
 /* Responsive */
 @media(max-width:1200px){
@@ -312,13 +323,41 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
           <input type="range" id="inLtv" min="30" max="85" step="1" value="60">
           <div class="range-row"><span>30% Seguro</span><span>85% Risco</span></div>
         </div>
+
+        <div class="divider" style="margin:12px 0"></div>
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--ash);margin-bottom:10px;display:flex;align-items:center;gap:6px">💰 Juros Bybit<span style="font-size:8px;padding:2px 5px;background:var(--gold-10);color:var(--gold);border-radius:3px">NOVO</span><span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box">Configura os <strong>juros do empréstimo Bybit</strong>. <em>Flexível</em> = juros compostos por hora (muda a cada hora). <em>Fixo</em> = juros simples por prazo definido (7, 30, 90 ou 180 dias). Esses juros afetam TODOS os cálculos do dashboard.</span></span></div>
+
+        <div class="field">
+          <div class="field-label"><span>Taxa Anual (APR %)</span><span class="field-val" id="fApr">--</span></div>
+          <input type="number" class="inp" id="inApr" value="12" step="0.1" min="0" max="100">
+        </div>
+        <div class="field">
+          <div class="field-label"><span>Prazo (dias)</span><span class="field-val" id="fDays">--</span></div>
+          <input type="number" class="inp" id="inDays" value="90" step="1" min="1" max="365">
+        </div>
+        <div class="field">
+          <div class="field-label"><span>Tipo</span></div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-sm" id="btnFlexible" onclick="setLoanType('flexible')" style="flex:1;background:var(--gold-10);border:1px solid var(--gold);color:var(--gold)">Flexível</button>
+            <button class="btn btn-sm" id="btnFixed" onclick="setLoanType('fixed')" style="flex:1;background:var(--steel);border:1px solid var(--edge);color:var(--silver)">Fixo</button>
+          </div>
+        </div>
+
+        <!-- Interest Preview -->
+        <div style="background:var(--deep);border:1px solid var(--edge);border-radius:var(--rs);padding:10px 12px;margin-top:6px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;color:var(--mist)">Juros Total</span><span style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--orange)" id="prevInterest">--</span></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;color:var(--mist)">Dívida Total (Principal + Juros)</span><span style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--red)" id="prevDebt">--</span></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;color:var(--mist)">Custo por Hora</span><span style="font-family:var(--mono);font-size:10px;color:var(--ash)" id="prevHourly">--</span></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;color:var(--mist)">Custo por Dia</span><span style="font-family:var(--mono);font-size:10px;color:var(--ash)" id="prevDaily">--</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="font-size:10px;color:var(--mist)">Liquidação Bybit (92% LTV)</span><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--red)" id="prevLiqReal">--</span></div>
+        </div>
       </div>
 
       <div class="divider"></div>
 
       <!-- PRICE LOCKS -->
       <div class="sect">
-        <div class="sect-head"><span class="sect-title">🔒 Travas de Preço</span></div>
+        <div class="sect-head"><span class="sect-title">🔒 Travas de Preço<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box"><strong>Trava um preço de referência</strong> para BTC e USDT. Quando o preço real desviar além do % configurado, o dashboard emite <em>alerta sonoro e visual</em>. Útil para monitorar enquanto não está olhando.</span></span></span></div>
 
         <div class="lock-card" id="lockBtcCard">
           <div class="lock-head">
@@ -368,6 +407,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
         <div class="health-top">
           <div>
             <span style="font-size:10px;color:var(--ash);font-weight:700;text-transform:uppercase;letter-spacing:1px">Saúde do Colateral</span>
+            <span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box"><strong>Saúde do Colateral</strong> mede quão segura está sua posição de 0 a 100. Considera o <em>LTV efetivo</em> (incluindo juros), a distância até a liquidação e a margem de segurança. Abaixo de 40 = perigo, 40–70 = atenção, acima de 70 = seguro.</span></span>
             <span class="health-score" id="healthScore">--</span>
           </div>
           <span class="health-label" id="healthLabel">--</span>
@@ -379,22 +419,22 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
       <!-- Metrics -->
       <div class="metrics">
         <div class="m-card c-gold">
-          <div class="m-label">BTC Necessário</div>
+          <div class="m-label">BTC Necessário<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box">Quantidade de <strong>BTC que a Bybit exige como colateral</strong> para manter o empréstimo no LTV target configurado. Calculado como: <em>Dívida USDT ÷ (LTV × Preço BTC)</em>.</span></span></div>
           <div class="m-val" id="mBtc">--</div>
           <div class="m-sub" id="mBtcSub">--</div>
         </div>
         <div class="m-card c-green">
-          <div class="m-label">Colateral USDT</div>
+          <div class="m-label">Colateral USDT<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box">Valor do seu colateral em <strong>USDT (dólar digital)</strong>. É o BTC travado × preço BTC/USDT atual. A Bybit calcula liquidação nesta moeda.</span></span></div>
           <div class="m-val" id="mUsdt">--</div>
           <div class="m-sub" id="mUsdtSub">--</div>
         </div>
         <div class="m-card c-blue">
-          <div class="m-label">Colateral BRL</div>
+          <div class="m-label">Colateral BRL<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box">Valor do colateral convertido para <strong>Reais</strong>. Oscila com BTC e câmbio do dólar. Este é o valor "real" que protege seu empréstimo.</span></span></div>
           <div class="m-val" id="mBrl">--</div>
           <div class="m-sub" id="mBrlSub">--</div>
         </div>
         <div class="m-card c-red">
-          <div class="m-label">Liquidação</div>
+          <div class="m-label">Liquidação<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box"><strong>Preço de liquidação Bybit.</strong> Se o BTC cair até este valor, a Bybit vende seu colateral automaticamente (LTV 92%). Inclui juros acumulados. <em>Margin call acontece no LTV 85%.</em></span></span></div>
           <div class="m-val" id="mLiq">--</div>
           <div class="m-sub" id="mLiqSub">--</div>
         </div>
@@ -403,7 +443,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
       <!-- Risk Chart -->
       <div class="card">
         <div class="card-h">
-          <span class="card-t">⚡ Mapa de Risco</span>
+          <span class="card-t">⚡ Mapa de Risco<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box">Gráfico de rosca mostrando a <strong>proporção entre dívida e colateral</strong>. Verde = margem de segurança (sobra). Vermelho = dívida. Quanto mais verde, mais seguro.</span></span></span>
           <span style="font-family:var(--mono);font-size:10px;color:var(--mist)" id="riskInfo">--</span>
         </div>
         <div class="card-b"><div class="chart-box"><canvas id="riskChart"></canvas></div></div>
@@ -411,7 +451,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 
       <!-- Breakdown -->
       <div class="card">
-        <div class="card-h"><span class="card-t">💰 Breakdown</span></div>
+        <div class="card-h"><span class="card-t">💰 Breakdown<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box"><strong>Composição detalhada</strong> da posição: BTC bloqueado na Bybit, valor em USDT e BRL, empréstimo + juros, e a <em>margem de segurança</em> (diferença entre colateral e dívida).</span></span></span></div>
         <div class="card-b">
           <div class="bd-row"><div class="bd-l"><div class="bd-dot gold"></div><div><div class="bd-name">Bitcoin Colateral</div><div class="bd-desc">Bloqueado Bybit</div></div></div><div><div class="bd-val" id="bdBtc">--</div><div class="bd-sub" id="bdBtcS">--</div></div></div>
           <div class="bd-row"><div class="bd-l"><div class="bd-dot green"></div><div><div class="bd-name">Equivalente USDT</div><div class="bd-desc">BTC × cotação</div></div></div><div><div class="bd-val" id="bdUsdt">--</div><div class="bd-sub" id="bdUsdtS">--</div></div></div>
@@ -422,7 +462,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 
       <!-- Scenario Table -->
       <div class="card">
-        <div class="card-h"><span class="card-t">🎯 Stress Test</span></div>
+        <div class="card-h"><span class="card-t">🎯 Stress Test<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box"><strong>Teste de estresse</strong> com cenários pré-definidos de queda do BTC (-10% a -50%). Mostra quanto BTC seria necessário em cada cenário e o <em>LTV efetivo na Bybit</em>, incluindo juros.</span></span></span></div>
         <div class="card-b" style="padding:0;overflow-x:auto">
           <table class="s-table">
             <thead><tr><th>Cenário</th><th>BTC/USDT</th><th>BTC/BRL</th><th>BTC Col.</th><th>LTV Efetivo</th><th>Queda Máx</th><th>Status</th></tr></thead>
@@ -431,77 +471,77 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
         </div>
       </div>
 
-      <!-- Scenario Chart -->
-      <div class="card">
-        <div class="card-h"><span class="card-t">📊 BTC Necessário por Cenário</span></div>
-        <div class="card-b"><div class="chart-box"><canvas id="scenChart"></canvas></div></div>
-      </div>
+      <!-- Scenario Chart merged into simulator below -->
 
-      <!-- ═══ PRICE SIMULATOR ═══ -->
+      <!-- ═══ PRICE SIMULATOR v2 — Cross Scenarios ═══ -->
       <div class="card" id="simCard">
         <div class="card-h">
-          <span class="card-t">🧪 Simulador de Preço BTC</span>
-          <span style="font-family:var(--mono);font-size:10px;color:var(--mist)">Colateral fixo · Exposição variável</span>
+          <span class="card-t">🧪 Simulador de Cenários<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box"><strong>Crie seus próprios cenários</strong> variando BTC e Dólar simultaneamente. Veja quantos BTCs precisa, o LTV real na Bybit e o valor em Reais. Use os <em>presets prontos</em> ou digite valores manualmente. Os juros são incluídos automaticamente.</span></span></span>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--mist)">BTC × Dólar · Cruzado</span>
         </div>
         <div class="card-b">
           <div style="font-size:11px;color:var(--silver);line-height:1.6;margin-bottom:14px">
-            Simule <strong style="color:var(--gold)">seus próprios preços do BTC</strong> e veja como cada cenário afeta colateral, LTV e exposição em BRL.
+            Simule <strong style="color:var(--gold)">diferentes preços de BTC e Dólar</strong> simultaneamente.
+            Veja quantos BTCs você precisa para manter a posição, o LTV real na Bybit, e o valor em Reais.
           </div>
 
-          <!-- DYNAMIC INPUT ZONE -->
+          <!-- ADD SCENARIO ZONE -->
           <div style="background:var(--deep);border:1.5px solid var(--edge);border-radius:var(--r);padding:16px;margin-bottom:16px">
             
-            <!-- Quick Add -->
-            <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
-              <div style="flex:1;position:relative">
-                <input type="text" class="inp" id="simQuickInput" placeholder="Digite um preço e Enter — ou vários: 80000, 95000, 120000" style="padding-right:60px;font-size:12px">
-                <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--mist);font-family:var(--mono)">USDT</span>
+            <!-- Manual Input -->
+            <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px">
+              <div style="flex:1;min-width:130px">
+                <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mist);margin-bottom:4px">BTC/USDT</div>
+                <input type="number" class="inp" id="simInBtc" placeholder="67000" style="font-size:13px;padding:8px 10px">
               </div>
-              <button class="btn btn-sm btn-gold" onclick="simQuickAdd()" style="white-space:nowrap">+ Adicionar</button>
+              <div style="flex:1;min-width:130px">
+                <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mist);margin-bottom:4px">USDT/BRL</div>
+                <input type="number" class="inp" id="simInUsdt" placeholder="5.24" step="0.01" style="font-size:13px;padding:8px 10px">
+              </div>
+              <button class="btn btn-sm btn-gold" onclick="simAddManual()" style="white-space:nowrap;padding:9px 16px">+ Adicionar</button>
             </div>
 
-            <!-- Range Generator -->
-            <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px">
-              <div style="flex:1;min-width:100px">
-                <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mist);margin-bottom:4px">De (USDT)</div>
-                <input type="number" class="inp" id="simRangeFrom" placeholder="70000" style="font-size:12px;padding:7px 10px">
+            <!-- Quick Presets -->
+            <div style="margin-bottom:10px">
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mist);margin-bottom:6px">Cenários Prontos</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <button class="sim-preset" onclick="simLoadPreset('bearUsdUp')">🐻💵 BTC↓ Dólar↑</button>
+                <button class="sim-preset" onclick="simLoadPreset('bearUsdDown')">🐻📉 BTC↓ Dólar↓</button>
+                <button class="sim-preset" onclick="simLoadPreset('bullUsdUp')">🚀💵 BTC↑ Dólar↑</button>
+                <button class="sim-preset" onclick="simLoadPreset('bullUsdDown')">🚀📉 BTC↑ Dólar↓</button>
+                <button class="sim-preset" onclick="simLoadPreset('matrix')">🔢 Matriz Completa</button>
+                <button class="sim-preset" onclick="simLoadPreset('worst')">💀 Pior Caso</button>
+                <button class="sim-preset" onclick="simLoadPreset('best')">🌟 Melhor Caso</button>
               </div>
-              <div style="flex:1;min-width:100px">
-                <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mist);margin-bottom:4px">Até (USDT)</div>
-                <input type="number" class="inp" id="simRangeTo" placeholder="150000" style="font-size:12px;padding:7px 10px">
-              </div>
-              <div style="width:80px">
-                <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mist);margin-bottom:4px">Passos</div>
-                <input type="number" class="inp" id="simRangeSteps" value="6" min="2" max="20" style="font-size:12px;padding:7px 10px;text-align:center">
-              </div>
-              <button class="btn btn-sm btn-outline" onclick="simGenerateRange()" style="white-space:nowrap">Gerar Faixa</button>
             </div>
 
-            <!-- Percentage Quick-Add -->
-            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-              <span style="font-size:10px;color:var(--mist);font-weight:700">Rápido:</span>
-              <button class="sim-preset" onclick="simAddPct(-30)">-30%</button>
-              <button class="sim-preset" onclick="simAddPct(-20)">-20%</button>
-              <button class="sim-preset" onclick="simAddPct(-10)">-10%</button>
-              <button class="sim-preset" onclick="simAddPct(-5)">-5%</button>
-              <button class="sim-preset" style="border-color:var(--gold);color:var(--gold)">ATUAL</button>
-              <button class="sim-preset" onclick="simAddPct(5)">+5%</button>
-              <button class="sim-preset" onclick="simAddPct(10)">+10%</button>
-              <button class="sim-preset" onclick="simAddPct(20)">+20%</button>
-              <button class="sim-preset" onclick="simAddPct(30)">+30%</button>
-              <button class="sim-preset" onclick="simAddPct(50)">+50%</button>
-              <button class="sim-preset" onclick="simAddPct(100)">+100%</button>
+            <!-- BTC Quick % -->
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+              <span style="font-size:9px;color:var(--gold);font-weight:700;width:50px">BTC:</span>
+              <button class="sim-preset" onclick="simAddBtcPct(-30)">-30%</button>
+              <button class="sim-preset" onclick="simAddBtcPct(-20)">-20%</button>
+              <button class="sim-preset" onclick="simAddBtcPct(-10)">-10%</button>
+              <button class="sim-preset" style="border-color:var(--gold);color:var(--gold);cursor:default">ATUAL</button>
+              <button class="sim-preset" onclick="simAddBtcPct(10)">+10%</button>
+              <button class="sim-preset" onclick="simAddBtcPct(20)">+20%</button>
+              <button class="sim-preset" onclick="simAddBtcPct(50)">+50%</button>
+            </div>
+            <!-- USDT Quick % -->
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span style="font-size:9px;color:var(--cyan);font-weight:700;width:50px">USDT:</span>
+              <button class="sim-preset" onclick="simAddUsdtPct(-15)">-15%</button>
+              <button class="sim-preset" onclick="simAddUsdtPct(-10)">-10%</button>
+              <button class="sim-preset" onclick="simAddUsdtPct(-5)">-5%</button>
+              <button class="sim-preset" style="border-color:var(--cyan);color:var(--cyan);cursor:default">ATUAL</button>
+              <button class="sim-preset" onclick="simAddUsdtPct(5)">+5%</button>
+              <button class="sim-preset" onclick="simAddUsdtPct(10)">+10%</button>
+              <button class="sim-preset" onclick="simAddUsdtPct(20)">+20%</button>
             </div>
           </div>
 
-          <!-- Preset Scenarios -->
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px">
-            <span style="font-size:10px;color:var(--mist);font-weight:700">Cenários:</span>
-            <button class="sim-preset" onclick="simLoadPreset('bear')">🐻 Bear</button>
-            <button class="sim-preset" onclick="simLoadPreset('correction')">📉 Correção</button>
-            <button class="sim-preset" onclick="simLoadPreset('range')">↔ Range</button>
-            <button class="sim-preset" onclick="simLoadPreset('bull')">🚀 Bull</button>
-            <button class="sim-preset" onclick="simLoadPreset('extreme')">⚡ Extremos</button>
+          <!-- Controls -->
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+            <span style="font-size:10px;color:var(--mist)" id="simCount">0 cenários</span>
             <div style="flex:1"></div>
             <button class="btn btn-sm btn-outline" onclick="simReset()" style="color:var(--red);border-color:rgba(255,59,92,.3)">✕ Limpar Tudo</button>
           </div>
@@ -509,13 +549,14 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
           <!-- Simulator Table -->
           <div style="overflow-x:auto">
             <div class="sim-grid">
-              <div class="sim-row sim-head-row">
+              <div class="sim-row sim-head-row" style="grid-template-columns:120px 90px 100px 110px 100px 100px 90px 40px">
                 <div class="sim-cell">BTC/USDT</div>
+                <div class="sim-cell">USDT/BRL</div>
+                <div class="sim-cell">BTC/BRL</div>
+                <div class="sim-cell">BTC Necessário</div>
+                <div class="sim-cell">Δ vs Atual</div>
                 <div class="sim-cell">Colateral BRL</div>
-                <div class="sim-cell">LTV Efetivo</div>
-                <div class="sim-cell">Margem Seg.</div>
-                <div class="sim-cell">Exposição BRL</div>
-                <div class="sim-cell">Status</div>
+                <div class="sim-cell">LTV Bybit</div>
                 <div class="sim-cell"></div>
               </div>
               <div id="simRows"></div>
@@ -524,14 +565,27 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 
           <!-- Summary Cards -->
           <div class="sim-summary">
-            <div class="sim-sum-card c1"><div class="sim-sum-label">Melhor Cenário</div><div class="sim-sum-val" id="simBest">--</div></div>
-            <div class="sim-sum-card c2"><div class="sim-sum-label">Pior Cenário</div><div class="sim-sum-val" id="simWorst">--</div></div>
-            <div class="sim-sum-card c3"><div class="sim-sum-label">BTC p/ LTV 50%</div><div class="sim-sum-val" id="simIdeal">--</div></div>
-            <div class="sim-sum-card c4"><div class="sim-sum-label">Preço Liquidação</div><div class="sim-sum-val" id="simLiqPrice">--</div></div>
+            <div class="sim-sum-card c1"><div class="sim-sum-label">Posição Atual</div><div class="sim-sum-val" id="simCurrent">--</div><div style="font-size:9px;color:var(--mist);margin-top:2px" id="simCurrentSub">--</div></div>
+            <div class="sim-sum-card c3"><div class="sim-sum-label">Melhor Cenário</div><div class="sim-sum-val" id="simBest">--</div><div style="font-size:9px;color:var(--mist);margin-top:2px" id="simBestSub">--</div></div>
+            <div class="sim-sum-card c2"><div class="sim-sum-label">Pior Cenário</div><div class="sim-sum-val" id="simWorst">--</div><div style="font-size:9px;color:var(--mist);margin-top:2px" id="simWorstSub">--</div></div>
+            <div class="sim-sum-card c4"><div class="sim-sum-label">Liquidação Bybit</div><div class="sim-sum-val" id="simLiqPrice">--</div><div style="font-size:9px;color:var(--mist);margin-top:2px">LTV 92% · BTC/USDT</div></div>
           </div>
 
-          <!-- Simulator Chart -->
-          <div class="sim-chart-wrap"><canvas id="simChart"></canvas></div>
+          <!-- Consolidated Chart — Power BI Style -->
+          <div style="background:var(--deep);border:1.5px solid var(--edge);border-radius:var(--r);padding:16px;margin-top:16px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+              <div>
+                <div style="font-size:12px;font-weight:700;color:var(--white)">📊 Painel Consolidado de Cenários<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box"><strong>Gráfico unificado</strong> que combina seus cenários simulados + stress test em uma única visualização. Barras = BTC necessário. Linha roxa = LTV Bybit. <em>Linhas pontilhadas</em> marcam os limites de Margin Call (85%) e Liquidação (92%).</span></span></div>
+                <div style="font-size:10px;color:var(--mist);margin-top:2px">Simulador + Stress Test · Dual Axis · LTV Bybit</div>
+              </div>
+              <div style="display:flex;gap:4px">
+                <span style="display:inline-flex;align-items:center;gap:4px;font-size:9px;color:var(--mist)"><span style="width:10px;height:10px;border-radius:2px;background:var(--gold)"></span>Simulado</span>
+                <span style="display:inline-flex;align-items:center;gap:4px;font-size:9px;color:var(--mist)"><span style="width:10px;height:10px;border-radius:2px;background:var(--blue)"></span>Stress Test</span>
+                <span style="display:inline-flex;align-items:center;gap:4px;font-size:9px;color:var(--mist)"><span style="width:10px;height:3px;background:var(--purple)"></span>LTV %</span>
+              </div>
+            </div>
+            <div class="sim-chart-wrap"><canvas id="simChart"></canvas></div>
+          </div>
         </div>
       </div>
     </div>
@@ -753,21 +807,9 @@ function initCharts() {
     }
   });
 
-  scenChart = new Chart($('scenChart').getContext('2d'), {
-    type: 'bar',
-    data: { labels: [], datasets: [{ label: 'BTC', data: [], backgroundColor: [], borderColor: [], borderWidth: 1, borderRadius: 4 }] },
-    options: { responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false },
-        tooltip: { backgroundColor: '#111722', titleFont: chartFont, bodyFont: chartFont, borderColor: '#283650', borderWidth: 1,
-          callbacks: { label: c => c.parsed.y.toFixed(6) + ' BTC' }
-        }
-      },
-      scales: {
-        x: { ticks: { color: '#3a4d6e', font: chartFont }, grid: { display: false } },
-        y: { ticks: { color: '#3a4d6e', font: chartFont }, grid: { color: gridClr }, title: { display: true, text: 'BTC', color: '#3a4d6e', font: chartFont } }
-      }
-    }
-  });
+  // scenChart removed — stress test data now feeds into simChart
+  scenChart = null;
+  window._stressTestData = []; // store for consolidated chart
 
   klineChart = new Chart($('klineChart').getContext('2d'), {
     type: 'line',
@@ -932,25 +974,81 @@ function beep(type) {
 // ═══════════════════════════════════════════════════════
 // MAIN CALCULATION
 // ═══════════════════════════════════════════════════════
+let loanType = 'flexible';
+function setLoanType(type) {
+  loanType = type;
+  $('btnFlexible').style.background = type === 'flexible' ? 'var(--gold-10)' : 'var(--steel)';
+  $('btnFlexible').style.borderColor = type === 'flexible' ? 'var(--gold)' : 'var(--edge)';
+  $('btnFlexible').style.color = type === 'flexible' ? 'var(--gold)' : 'var(--silver)';
+  $('btnFixed').style.background = type === 'fixed' ? 'var(--gold-10)' : 'var(--steel)';
+  $('btnFixed').style.borderColor = type === 'fixed' ? 'var(--gold)' : 'var(--edge)';
+  $('btnFixed').style.color = type === 'fixed' ? 'var(--gold)' : 'var(--silver)';
+  calculateAll();
+}
+
+function calcInterest(principal, aprPct, days, type) {
+  const hourlyRate = (aprPct / 100) / 8760; // 365 * 24
+  const hours = days * 24;
+  let totalDebt;
+  if (type === 'flexible') {
+    // Compound hourly: debt = principal × (1 + hourlyRate)^hours
+    totalDebt = principal * Math.pow(1 + hourlyRate, hours);
+  } else {
+    // Fixed: simple interest charged upfront
+    totalDebt = principal * (1 + (aprPct / 100) * (days / 365));
+  }
+  const interest = totalDebt - principal;
+  return { interest, totalDebt, hourlyRate, dailyCost: interest / days };
+}
+
 function calculateAll() {
   const btcUsdt = parseFloat($('inBtc').value) || 0;
   const usdtBrl = parseFloat($('inUsdt').value) || 0;
   const loan = parseFloat($('inLoan').value) || 0;
   const ltv = parseFloat($('inLtv').value) / 100;
+  const apr = parseFloat($('inApr').value) || 0;
+  const days = parseFloat($('inDays').value) || 90;
   if (!btcUsdt || !usdtBrl || !loan) return;
 
+  // ── Interest Calculation ──
+  const loanUsdt = loan / usdtBrl;
+  const { interest, totalDebt, hourlyRate, dailyCost } = calcInterest(loanUsdt, apr, days, loanType);
+  const interestBrl = interest * usdtBrl;
+  const totalDebtBrl = totalDebt * usdtBrl;
+  const dailyCostBrl = dailyCost * usdtBrl;
+  const hourlyCostBrl = (loanUsdt * hourlyRate) * usdtBrl;
+
+  // ── Core Calculations (using totalDebt instead of loan) ──
   const btcBrl = btcUsdt * usdtBrl;
   const spread = ((usdtBrl - 5.70) / 5.70) * 100;
-  const colBrl = loan / ltv;
+  const colBrl = loan / ltv; // Collateral required at entry (based on principal)
   const colUsdt = colBrl / usdtBrl;
   const btcNeeded = colUsdt / btcUsdt;
-  const safety = colBrl - loan;
-  const safetyPct = (safety / colBrl) * 100;
-  const liqPriceBrl = loan / btcNeeded;
+
+  // Safety & liquidation now consider accumulated interest
+  const safetyVsDebt = colBrl - totalDebtBrl;
+  const safetyPct = (safetyVsDebt / colBrl) * 100;
+  const effectiveLtv = (totalDebtBrl / colBrl) * 100;
+
+  // Bybit liquidation: uses 92% LTV and includes interest
+  const BYBIT_LIQ_LTV = 0.92;
+  const BYBIT_MARGIN_CALL_LTV = 0.85;
+  const liqPriceBrl = totalDebtBrl / (btcNeeded * BYBIT_LIQ_LTV);
   const liqPriceUsdt = liqPriceBrl / usdtBrl;
+  const marginCallPriceBrl = totalDebtBrl / (btcNeeded * BYBIT_MARGIN_CALL_LTV);
   const maxDrop = ((btcBrl - liqPriceBrl) / btcBrl) * 100;
+  const marginCallDrop = ((btcBrl - marginCallPriceBrl) / btcBrl) * 100;
   const dist = ((btcBrl - liqPriceBrl) / btcBrl) * 100;
   const health = Math.max(0, Math.min(100, dist * 1.8));
+
+  // ── Interest Preview Panel ──
+  $('fApr').textContent = apr.toFixed(1) + '% a.a.';
+  $('fDays').textContent = days + ' dias';
+  $('prevInterest').textContent = 'R$ ' + fmt(interestBrl);
+  $('prevDebt').textContent = 'R$ ' + fmt(totalDebtBrl);
+  $('prevHourly').textContent = 'R$ ' + hourlyCostBrl.toFixed(2) + '/hora';
+  $('prevDaily').textContent = 'R$ ' + fmt(dailyCostBrl) + '/dia';
+  $('prevLiqReal').textContent = '₮ ' + fmt(liqPriceUsdt);
 
   // ── Field displays ──
   $('fBtc').textContent = '₮ ' + fmt(btcUsdt);
@@ -958,7 +1056,7 @@ function calculateAll() {
   $('fLoan').textContent = 'R$ ' + fmt(loan);
   $('fLtv').textContent = (ltv * 100).toFixed(0) + '%';
 
-  // ── Health ──
+  // ── Health (now based on debt including interest) ──
   let hColor, hText, hBg;
   if (health >= 65) { hColor = 'var(--green)'; hText = 'SAUDÁVEL'; hBg = 'var(--green-20)'; }
   else if (health >= 35) { hColor = 'var(--orange)'; hText = 'ATENÇÃO'; hBg = 'var(--orange-20)'; }
@@ -975,24 +1073,24 @@ function calculateAll() {
   $('mBtc').textContent = btcNeeded.toFixed(6);
   $('mBtcSub').textContent = '≈ ₮' + fmtK(colUsdt);
   $('mUsdt').textContent = '₮' + fmtK(colUsdt);
-  $('mUsdtSub').textContent = btcNeeded.toFixed(4) + ' × ₮' + fmt(btcUsdt);
+  $('mUsdtSub').textContent = 'Dívida: ₮' + fmtK(totalDebt);
   $('mBrl').textContent = 'R$' + fmtK(colBrl);
-  $('mBrlSub').textContent = 'Margem R$' + fmtK(safety);
-  $('mLiq').textContent = 'R$' + fmtK(liqPriceBrl);
-  $('mLiqSub').textContent = '↓ ' + maxDrop.toFixed(1) + '% até liq.';
+  $('mBrlSub').textContent = 'Juros R$' + fmtK(interestBrl) + ' em ' + days + 'd';
+  $('mLiq').textContent = '₮' + fmtK(liqPriceUsdt);
+  $('mLiqSub').textContent = '↓ ' + maxDrop.toFixed(1) + '% até liq. (92%)';
 
   // ── Risk info ──
-  $('riskInfo').textContent = 'Queda máx ' + maxDrop.toFixed(1) + '% | Buffer R$' + fmtK(safety);
+  $('riskInfo').textContent = 'Queda máx ' + maxDrop.toFixed(1) + '% | Margin Call ' + marginCallDrop.toFixed(1) + '% | Juros R$' + fmtK(interestBrl);
 
   // ── Breakdown ──
   $('bdBtc').textContent = btcNeeded.toFixed(6) + ' BTC';
   $('bdBtcS').textContent = '≈ US$ ' + fmt(colUsdt);
   $('bdUsdt').textContent = '₮ ' + fmt(colUsdt);
-  $('bdUsdtS').textContent = btcNeeded.toFixed(4) + ' × ₮' + fmt(btcUsdt);
+  $('bdUsdtS').textContent = 'Dívida ₮' + fmt(totalDebt) + ' (P+J)';
   $('bdBrl').textContent = 'R$ ' + fmt(colBrl);
-  $('bdBrlS').textContent = '₮' + fmt(colUsdt) + ' × R$' + usdtBrl.toFixed(2);
-  $('bdBuf').textContent = 'R$ ' + fmt(safety);
-  $('bdBufS').textContent = safetyPct.toFixed(1) + '% buffer';
+  $('bdBrlS').textContent = 'Juros ' + days + 'd: R$' + fmt(interestBrl);
+  $('bdBuf').textContent = 'R$ ' + fmt(safetyVsDebt);
+  $('bdBufS').textContent = safetyPct.toFixed(1) + '% buffer (c/ juros)';
 
   // ── Sidebar stats ──
   $('sBtcBrl').textContent = 'R$' + fmtK(btcBrl);
@@ -1000,7 +1098,7 @@ function calculateAll() {
   $('sSpread').style.color = spread > 2 ? 'var(--orange)' : 'var(--green)';
   $('sMaxDrop').textContent = maxDrop.toFixed(1) + '%';
   $('sMaxDrop').style.color = maxDrop < 20 ? 'var(--red)' : maxDrop < 35 ? 'var(--orange)' : 'var(--green)';
-  $('sBuffer').textContent = 'R$' + fmtK(safety);
+  $('sBuffer').textContent = 'R$' + fmtK(safetyVsDebt);
 
   // 24h stats from ticker
   if (S.ticker24.high) $('kH').textContent = '₮' + fmtK(S.ticker24.high);
@@ -1013,45 +1111,54 @@ function calculateAll() {
   }
 
   // ── Charts ──
-  updateRiskChart(btcBrl, liqPriceBrl);
-  updateScenarios(btcUsdt, usdtBrl, loan, ltv, btcNeeded);
+  updateRiskChart(btcBrl, liqPriceBrl, marginCallPriceBrl);
+  updateScenarios(btcUsdt, usdtBrl, loan, ltv, btcNeeded, totalDebtBrl);
 
   // ── Locks ──
-  checkLocks(btcUsdt, usdtBrl, ltv * 100);
+  checkLocks(btcUsdt, usdtBrl, effectiveLtv);
 
   // ── Alert logic ──
   if (S.prev.health !== null) {
     if (health < 25 && S.prev.health >= 25) addAlert('danger', `🚨 CRÍTICO! Saúde caiu para ${health.toFixed(0)}. Risco de liquidação iminente!`);
     else if (health < 40 && S.prev.health >= 40) addAlert('warn', `Saúde em ${health.toFixed(0)} — BTC aguenta queda de ${maxDrop.toFixed(1)}% antes de liquidação`);
-    else if (health >= 65 && S.prev.health < 65) addAlert('ok', `Colateral saudável! Score ${health.toFixed(0)}, margem R$${fmt(safety)}`);
+    else if (health >= 65 && S.prev.health < 65) addAlert('ok', `Colateral saudável! Score ${health.toFixed(0)}, margem R$${fmt(safetyVsDebt)}`);
   }
 
   if (maxDrop < 12) addAlert('danger', `BTC só aguenta -${maxDrop.toFixed(1)}% antes de liquidação!`);
   else if (maxDrop < 20 && (!S.prev.health || S.prev.health >= 40)) addAlert('warn', `Queda máxima suportada: ${maxDrop.toFixed(1)}%`);
+
+  if (effectiveLtv > 80) addAlert('danger', `LTV efetivo ${effectiveLtv.toFixed(1)}% (c/ juros) — acima do inicial Bybit de 80%!`);
 
   S.prev.health = health;
   S.prev.btcPrice = btcUsdt;
   S.prev.usdtPrice = usdtBrl;
 }
 
-function updateRiskChart(price, liqPrice) {
-  const labels = [], prices = [], liqLine = [], alertLine = [];
+function updateRiskChart(price, liqPrice, marginCallPrice) {
+  const labels = [], prices = [], liqLine = [], alertLine = [], mcLine = [];
   const alertPrice = S.locks.btc ? (parseFloat($('lockBtcPrice').value) || 0) * (parseFloat($('inUsdt').value) || 1) : 0;
 
   for (let i = -40; i <= 40; i += 5) {
     labels.push((i >= 0 ? '+' : '') + i + '%');
     prices.push(price * (1 + i / 100));
     liqLine.push(liqPrice);
+    mcLine.push(marginCallPrice || null);
     alertLine.push(alertPrice > 0 ? alertPrice : null);
   }
   riskChart.data.labels = labels;
   riskChart.data.datasets[0].data = prices;
   riskChart.data.datasets[1].data = liqLine;
   riskChart.data.datasets[2].data = alertLine;
+  // Add margin call line if not already present
+  if (riskChart.data.datasets.length < 4) {
+    riskChart.data.datasets.push({ label: 'Margin Call (85%)', data: mcLine, borderColor: '#ff9f43', borderDash: [4,4], borderWidth: 1.5, pointRadius: 0, fill: false });
+  } else {
+    riskChart.data.datasets[3].data = mcLine;
+  }
   riskChart.update('none');
 }
 
-function updateScenarios(btcUsdt, usdtBrl, loan, ltv, baseBtc) {
+function updateScenarios(btcUsdt, usdtBrl, loan, ltv, baseBtc, totalDebtBrl) {
   const scenarios = [
     { l: 'Crash -40%', f: .60 }, { l: 'Queda -30%', f: .70 }, { l: 'Queda -20%', f: .80 },
     { l: 'Queda -10%', f: .90 }, { l: '▸ ATUAL', f: 1, cur: true },
@@ -1061,6 +1168,8 @@ function updateScenarios(btcUsdt, usdtBrl, loan, ltv, baseBtc) {
   const body = $('scenBody');
   body.innerHTML = '';
   const cL = [], cD = [], cBg = [], cBd = [];
+  const debt = totalDebtBrl || loan; // fallback
+  window._stressTestData = []; // reset
 
   scenarios.forEach(s => {
     const sBtc = btcUsdt * s.f;
@@ -1069,13 +1178,14 @@ function updateScenarios(btcUsdt, usdtBrl, loan, ltv, baseBtc) {
     const colUsdt = colBrl / usdtBrl;
     const sBtcNeeded = colUsdt / sBtc;
     const newColVal = baseBtc * sBtc * usdtBrl;
-    const effLtv = (loan / newColVal) * 100;
-    const sDrop = ((sBrl - (loan / baseBtc)) / sBrl) * 100;
+    const effLtv = (debt / newColVal) * 100;
+    const liqPriceScen = debt / (baseBtc * 0.92);
+    const sDrop = ((sBrl - liqPriceScen) / sBrl) * 100;
 
     let risk, rc;
-    if (effLtv >= 95) { risk = 'LIQUIDAÇÃO'; rc = 'liq'; }
-    else if (effLtv >= 75) { risk = 'PERIGO'; rc = 'danger'; }
-    else if (effLtv >= 60) { risk = 'ATENÇÃO'; rc = 'caution'; }
+    if (effLtv >= 92) { risk = 'LIQUIDAÇÃO'; rc = 'liq'; }
+    else if (effLtv >= 85) { risk = 'MARGIN CALL'; rc = 'danger'; }
+    else if (effLtv >= 65) { risk = 'ATENÇÃO'; rc = 'caution'; }
     else { risk = 'SEGURO'; rc = 'safe'; }
 
     const tr = document.createElement('tr');
@@ -1087,19 +1197,23 @@ function updateScenarios(btcUsdt, usdtBrl, loan, ltv, baseBtc) {
     cD.push(sBtcNeeded);
     cBg.push(s.f >= 1 ? 'rgba(0,230,138,.4)' : 'rgba(255,59,92,.4)');
     cBd.push(s.f >= 1 ? '#00e68a' : '#ff3b5c');
+    // Store for consolidated chart
+    window._stressTestData.push({ label: s.l.replace('▸ ', ''), btcNeeded: sBtcNeeded, ltvPct: effLtv, btcUsdt: sBtc, usdtBrl: usdtBrl });
   });
 
-  scenChart.data.labels = cL;
-  scenChart.data.datasets[0].data = cD;
-  scenChart.data.datasets[0].backgroundColor = cBg;
-  scenChart.data.datasets[0].borderColor = cBd;
-  scenChart.update('none');
+  // Store stress test chart data globally for consolidated chart
+  window._stressLabels = cL;
+  window._stressData = cD;
+  window._stressBg = cBg;
+  window._stressBd = cBd;
+  // Trigger simChart update to include stress data
+  if (simChart && simRows.length > 0) simCalculate();
 }
 
 // ═══════════════════════════════════════════════════════
 // EVENT LISTENERS
 // ═══════════════════════════════════════════════════════
-['inBtc','inUsdt','inLoan'].forEach(id => $(id).addEventListener('input', calculateAll));
+['inBtc','inUsdt','inLoan','inApr','inDays'].forEach(id => $(id).addEventListener('input', calculateAll));
 $('inLtv').addEventListener('input', calculateAll);
 
 $('btnSound').addEventListener('click', () => {
@@ -1129,32 +1243,78 @@ let simRows = [];
 let simIdCounter = 0;
 
 function initSimChart() {
-  simChart = new Chart($('simChart').getContext('2d'), {
+  const ctx = $('simChart').getContext('2d');
+
+  // Threshold line plugin
+  const thresholdPlugin = {
+    id: 'thresholds',
+    afterDraw(chart) {
+      const { ctx, chartArea, scales } = chart;
+      if (!scales.y1) return;
+      const drawLine = (val, color, label) => {
+        const y = scales.y1.getPixelForValue(val);
+        if (y < chartArea.top || y > chartArea.bottom) return;
+        ctx.save();
+        ctx.setLineDash([6, 4]);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(chartArea.left, y);
+        ctx.lineTo(chartArea.right, y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = color;
+        ctx.font = 'bold 9px "Space Mono"';
+        ctx.textAlign = 'right';
+        ctx.fillText(label, chartArea.right - 4, y - 4);
+        ctx.restore();
+      };
+      drawLine(85, '#ff9f43', '⚠ MARGIN CALL 85%');
+      drawLine(92, '#ff3b5c', '💀 LIQUIDAÇÃO 92%');
+    }
+  };
+
+  simChart = new Chart(ctx, {
     type: 'bar',
+    plugins: [thresholdPlugin],
     data: {
       labels: [],
       datasets: [
         {
-          label: 'Exposição BRL',
+          label: 'BTC Simulado',
           data: [],
           backgroundColor: [],
           borderColor: [],
           borderWidth: 1.5,
           borderRadius: 5,
-          yAxisID: 'y'
+          yAxisID: 'y',
+          order: 2
         },
         {
-          label: 'LTV Efetivo %',
+          label: 'BTC Stress Test',
+          data: [],
+          backgroundColor: 'rgba(77,166,255,0.35)',
+          borderColor: 'rgba(77,166,255,0.8)',
+          borderWidth: 1.5,
+          borderRadius: 5,
+          yAxisID: 'y',
+          order: 3
+        },
+        {
+          label: 'LTV Bybit %',
           data: [],
           type: 'line',
           borderColor: '#a78bfa',
-          backgroundColor: 'rgba(167,139,250,0.1)',
-          borderWidth: 2,
+          backgroundColor: 'rgba(167,139,250,0.08)',
+          borderWidth: 2.5,
           pointRadius: 5,
-          pointBackgroundColor: '#a78bfa',
+          pointBackgroundColor: [],
+          pointBorderColor: '#a78bfa',
+          pointBorderWidth: 2,
           tension: 0.3,
-          fill: false,
-          yAxisID: 'y1'
+          fill: true,
+          yAxisID: 'y1',
+          order: 1
         }
       ]
     },
@@ -1163,42 +1323,58 @@ function initSimChart() {
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { labels: { color: '#64748b', font: chartFont, boxWidth: 10, padding: 14 } },
+        legend: {
+          labels: { color: '#64748b', font: chartFont, boxWidth: 12, padding: 16, usePointStyle: false }
+        },
         tooltip: {
-          backgroundColor: '#111722', titleFont: chartFont, bodyFont: chartFont,
-          borderColor: '#283650', borderWidth: 1,
+          backgroundColor: '#0c1018', titleFont: chartFont, bodyFont: chartFont,
+          borderColor: '#283650', borderWidth: 1, padding: 12,
           callbacks: {
+            title: ctx => ctx[0]?.label || '',
             label: function(ctx) {
-              if (ctx.datasetIndex === 0) return 'Exposição: R$ ' + fmt(ctx.parsed.y);
-              return 'LTV: ' + ctx.parsed.y.toFixed(1) + '%';
+              if (ctx.datasetIndex === 0) return '  🟡 Simulado: ' + ctx.parsed.y.toFixed(6) + ' BTC';
+              if (ctx.datasetIndex === 1) return '  🔵 Stress: ' + ctx.parsed.y.toFixed(6) + ' BTC';
+              if (ctx.datasetIndex === 2) {
+                const v = ctx.parsed.y;
+                const icon = v >= 92 ? '💀' : v >= 85 ? '⚠' : v >= 65 ? '🟡' : '✅';
+                return '  ' + icon + ' LTV: ' + v.toFixed(1) + '%';
+              }
             }
           }
         }
       },
       scales: {
-        x: { ticks: { color: '#3a4d6e', font: chartFont }, grid: { display: false } },
+        x: {
+          ticks: { color: '#3a4d6e', font: chartFont, maxRotation: 45 },
+          grid: { display: false }
+        },
         y: {
           position: 'left',
-          ticks: { color: '#3a4d6e', font: chartFont, callback: v => 'R$' + (v >= 0 ? '+' : '') + fmtK(v) },
-          grid: { color: gridClr },
-          title: { display: true, text: 'Exposição BRL', color: '#3a4d6e', font: chartFont }
+          ticks: { color: '#64748b', font: chartFont, callback: v => v.toFixed(4) },
+          grid: { color: 'rgba(40,54,80,.3)' },
+          title: { display: true, text: 'BTC Necessário', color: '#f0b90b', font: { ...chartFont, weight: 'bold' } }
         },
         y1: {
           position: 'right',
           min: 0, max: 120,
-          ticks: { color: '#a78bfa', font: chartFont, callback: v => v + '%' },
+          ticks: {
+            color: '#a78bfa', font: chartFont,
+            callback: v => v + '%',
+            stepSize: 20
+          },
           grid: { drawOnChartArea: false },
-          title: { display: true, text: 'LTV %', color: '#a78bfa', font: chartFont }
+          title: { display: true, text: 'LTV Bybit %', color: '#a78bfa', font: { ...chartFont, weight: 'bold' } }
         }
       }
     }
   });
 }
 
-function simAddRow(price) {
+function simAddRow(btcPrice, usdtPrice) {
   const id = simIdCounter++;
-  const btcPrice = price || parseFloat($('inBtc').value) || 100000;
-  simRows.push({ id, price: btcPrice });
+  const btc = btcPrice || parseFloat($('inBtc').value) || 100000;
+  const usdt = usdtPrice || parseFloat($('inUsdt').value) || 5.24;
+  simRows.push({ id, btc: Math.round(btc), usdt: parseFloat(usdt.toFixed(2)) });
   simRenderRows();
   simCalculate();
 }
@@ -1212,155 +1388,310 @@ function simRemoveRow(id) {
 function simRenderRows() {
   const container = $('simRows');
   container.innerHTML = simRows.map(r => `
-    <div class="sim-row" id="simRow_${r.id}" data-id="${r.id}">
-      <div class="sim-cell"><input type="number" class="sim-inp" id="simInp_${r.id}" value="${r.price}" step="100" onchange="simOnChange(${r.id})" oninput="simOnChange(${r.id})"></div>
-      <div class="sim-cell" id="simCol_${r.id}">--</div>
+    <div class="sim-row" id="simRow_${r.id}" data-id="${r.id}" style="grid-template-columns:120px 90px 100px 110px 100px 100px 90px 40px">
+      <div class="sim-cell"><input type="number" class="sim-inp" id="simBtc_${r.id}" value="${r.btc}" step="100" onchange="simOnChange(${r.id})" oninput="simOnChange(${r.id})"></div>
+      <div class="sim-cell"><input type="number" class="sim-inp usdt-inp" id="simUsdt_${r.id}" value="${r.usdt}" step="0.01" onchange="simOnChange(${r.id})" oninput="simOnChange(${r.id})" style="font-size:11px"></div>
+      <div class="sim-cell" id="simBrl_${r.id}">--</div>
+      <div class="sim-cell" id="simBtcNeed_${r.id}" style="font-weight:700;color:var(--gold)">--</div>
+      <div class="sim-cell" id="simDelta_${r.id}">--</div>
+      <div class="sim-cell" id="simColBrl_${r.id}">--</div>
       <div class="sim-cell" id="simLtv_${r.id}">--</div>
-      <div class="sim-cell" id="simMargin_${r.id}">--</div>
-      <div class="sim-cell" id="simExpo_${r.id}">--</div>
-      <div class="sim-cell" id="simStatus_${r.id}">--</div>
       <div class="sim-cell"><button class="sim-remove" onclick="simRemoveRow(${r.id})" title="Remover">✕</button></div>
     </div>
   `).join('');
+  $('simCount').textContent = simRows.length + ' cenário' + (simRows.length !== 1 ? 's' : '');
 }
 
 function simOnChange(id) {
-  const inp = $('simInp_' + id);
   const row = simRows.find(r => r.id === id);
-  if (row && inp) {
-    row.price = parseFloat(inp.value) || 0;
-    simCalculate();
-  }
+  if (!row) return;
+  const btcInp = $('simBtc_' + id);
+  const usdtInp = $('simUsdt_' + id);
+  if (btcInp) row.btc = parseFloat(btcInp.value) || 0;
+  if (usdtInp) row.usdt = parseFloat(usdtInp.value) || 0;
+  simCalculate();
 }
 
 function simCalculate() {
   const currentBtcUsdt = parseFloat($('inBtc').value) || 0;
-  const usdtBrl = parseFloat($('inUsdt').value) || 0;
+  const currentUsdtBrl = parseFloat($('inUsdt').value) || 0;
   const loan = parseFloat($('inLoan').value) || 0;
-  const ltv = parseFloat($('inLtv').value) / 100;
-  if (!currentBtcUsdt || !usdtBrl || !loan) return;
+  const ltvTarget = parseFloat($('inLtv').value) / 100;
+  const apr = parseFloat($('inApr').value) || 0;
+  const days = parseFloat($('inDays').value) || 90;
+  if (!currentBtcUsdt || !currentUsdtBrl || !loan) return;
 
-  // BTC locked at current price with current LTV
-  const currentColBrl = loan / ltv;
-  const currentColUsdt = currentColBrl / usdtBrl;
-  const btcLocked = currentColUsdt / currentBtcUsdt;
-  const currentBtcBrl = currentBtcUsdt * usdtBrl;
+  // ── Current position (real) ──
+  // Loan was taken in USDT at current USDT/BRL rate
+  const loanUsdt = loan / currentUsdtBrl;
+  const { totalDebt: debtUsdt } = calcInterest(loanUsdt, apr, days, loanType);
+  
+  // Current BTC locked = (loan / ltvTarget) / (btcUsdt * usdtBrl) converted to BTC
+  const currentColUsdt = loan / (ltvTarget * currentUsdtBrl);
+  const currentBtcLocked = currentColUsdt / currentBtcUsdt;
+  const currentColBrl = currentBtcLocked * currentBtcUsdt * currentUsdtBrl;
 
-  // Liquidation price
-  const liqPriceBrl = loan / btcLocked;
-  const liqPriceUsdt = liqPriceBrl / usdtBrl;
+  // Bybit liquidation price (only BTC/USDT matters, LTV 92%)
+  const BYBIT_LIQ_LTV = 0.92;
+  const liqPriceUsdt = debtUsdt / (currentBtcLocked * BYBIT_LIQ_LTV);
 
-  // Ideal BTC for 50% LTV
-  const idealColBrl = loan / 0.5;
-  const idealColUsdt = idealColBrl / usdtBrl;
-  const idealBtcUsdt = idealColUsdt / btcLocked;
+  // Update summary — current position
+  $('simCurrent').textContent = currentBtcLocked.toFixed(6) + ' BTC';
+  $('simCurrentSub').textContent = 'Col R$' + fmtK(currentColBrl) + ' · LTV ' + (ltvTarget * 100).toFixed(0) + '%';
+  $('simLiqPrice').textContent = '₮ ' + fmt(Math.round(liqPriceUsdt));
 
-  const chartLabels = [];
-  const chartExposure = [];
-  const chartLtv = [];
-  const chartBg = [];
-  const chartBd = [];
+  let bestRow = null, worstRow = null;
+  let bestLtv = Infinity, worstLtv = -Infinity;
 
-  let bestExpo = -Infinity, worstExpo = Infinity;
-
-  // Sort rows by price for chart
-  const sorted = [...simRows].sort((a, b) => a.price - b.price);
+  // Sort by BTC price for chart
+  const sorted = [...simRows].sort((a, b) => a.btc - b.btc);
 
   sorted.forEach(row => {
-    const simBtcUsdt = row.price;
-    if (simBtcUsdt <= 0) return;
+    if (row.btc <= 0 || row.usdt <= 0) return;
 
-    const simBtcBrl = simBtcUsdt * usdtBrl;
-    const newColBrl = btcLocked * simBtcBrl;
-    const effLtv = (loan / newColBrl) * 100;
-    const margin = newColBrl - loan;
-    const exposure = newColBrl - currentColBrl; // gain/loss vs current collateral value
-    const pctChange = ((simBtcUsdt - currentBtcUsdt) / currentBtcUsdt) * 100;
+    // ── KEY CALCULATIONS ──
+    // How many BTC needed to maintain target LTV at simulated prices
+    // BTC needed = debtUsdt / (ltvTarget * simBtcUsdt)
+    const btcNeeded = debtUsdt / (ltvTarget * row.btc);
 
-    // Update row cells
+    // Delta vs current locked BTC (positive = needs MORE, bad)
+    const deltaBtc = btcNeeded - currentBtcLocked;
+
+    // Collateral value in BRL at simulated prices (for current locked BTC)
+    const simColBrl = currentBtcLocked * row.btc * row.usdt;
+
+    // BTC/BRL price
+    const btcBrl = row.btc * row.usdt;
+
+    // LTV Bybit (what actually matters for liquidation) — only BTC/USDT
+    const ltvBybit = (debtUsdt / (currentBtcLocked * row.btc)) * 100;
+
+    // Track best/worst by LTV
+    if (ltvBybit < bestLtv) { bestLtv = ltvBybit; bestRow = { ...row, btcNeeded, ltvBybit, simColBrl }; }
+    if (ltvBybit > worstLtv) { worstLtv = ltvBybit; worstRow = { ...row, btcNeeded, ltvBybit, simColBrl }; }
+
+    // ── UPDATE ROW CELLS ──
     const rowEl = $('simRow_' + row.id);
     if (rowEl) {
-      if (exposure > 0) rowEl.className = 'sim-row positive';
-      else if (exposure < 0) rowEl.className = 'sim-row negative';
-      else rowEl.className = 'sim-row';
+      rowEl.className = 'sim-row ' + (deltaBtc <= 0 ? 'positive' : 'negative');
     }
 
-    const colEl = $('simCol_' + row.id);
-    if (colEl) colEl.textContent = 'R$ ' + fmtK(newColBrl);
+    const brlEl = $('simBrl_' + row.id);
+    if (brlEl) brlEl.textContent = 'R$' + fmtK(btcBrl);
+
+    const needEl = $('simBtcNeed_' + row.id);
+    if (needEl) needEl.textContent = btcNeeded.toFixed(6);
+
+    const deltaEl = $('simDelta_' + row.id);
+    if (deltaEl) {
+      if (Math.abs(deltaBtc) < 0.000001) {
+        deltaEl.innerHTML = '<span style="color:var(--ash)">—</span>';
+      } else {
+        const sign = deltaBtc > 0 ? '+' : '';
+        const color = deltaBtc > 0 ? 'var(--red)' : 'var(--green)';
+        deltaEl.innerHTML = `<span style="color:${color};font-weight:700">${sign}${deltaBtc.toFixed(6)}</span>`;
+      }
+    }
+
+    const colEl = $('simColBrl_' + row.id);
+    if (colEl) {
+      colEl.textContent = 'R$' + fmtK(simColBrl);
+      colEl.style.color = simColBrl >= loan / ltvTarget ? 'var(--green)' : 'var(--red)';
+    }
 
     const ltvEl = $('simLtv_' + row.id);
     if (ltvEl) {
-      ltvEl.textContent = effLtv.toFixed(1) + '%';
-      ltvEl.className = 'sim-cell sim-ltv ' + (effLtv >= 80 ? 'danger' : effLtv >= 60 ? 'caution' : 'safe');
+      ltvEl.textContent = ltvBybit.toFixed(1) + '%';
+      if (ltvBybit >= 92) { ltvEl.className = 'sim-cell sim-ltv danger'; ltvEl.innerHTML = '<span class="risk-badge liq">' + ltvBybit.toFixed(1) + '% 💀</span>'; }
+      else if (ltvBybit >= 85) { ltvEl.className = 'sim-cell sim-ltv danger'; ltvEl.innerHTML = '<span class="risk-badge danger">' + ltvBybit.toFixed(1) + '%</span>'; }
+      else if (ltvBybit >= 65) { ltvEl.className = 'sim-cell sim-ltv caution'; }
+      else { ltvEl.className = 'sim-cell sim-ltv safe'; }
     }
 
-    const marginEl = $('simMargin_' + row.id);
-    if (marginEl) {
-      marginEl.textContent = margin > 0 ? 'R$ ' + fmtK(margin) : '- R$ ' + fmtK(Math.abs(margin));
-      marginEl.style.color = margin > 0 ? 'var(--green)' : 'var(--red)';
-    }
-
-    const expoEl = $('simExpo_' + row.id);
-    if (expoEl) {
-      const sign = exposure >= 0 ? '+' : '';
-      expoEl.innerHTML = `<span class="sim-exposure ${exposure > 0 ? 'up' : exposure < 0 ? 'down' : 'neutral'}">${sign}R$ ${fmtK(Math.abs(exposure))}</span><br><span style="font-size:9px;color:var(--mist)">${sign}${pctChange.toFixed(1)}% BTC</span>`;
-    }
-
-    const statusEl = $('simStatus_' + row.id);
-    if (statusEl) {
-      let badge, cls;
-      if (effLtv >= 95) { badge = 'LIQUIDADO'; cls = 'liq'; }
-      else if (effLtv >= 75) { badge = 'PERIGO'; cls = 'danger'; }
-      else if (effLtv >= 60) { badge = 'ATENÇÃO'; cls = 'caution'; }
-      else { badge = 'SEGURO'; cls = 'safe'; }
-      statusEl.innerHTML = `<span class="risk-badge ${cls}">${badge}</span>`;
-    }
-
-    // Chart data
-    chartLabels.push('₮' + fmtK(simBtcUsdt));
-    chartExposure.push(exposure);
-    chartLtv.push(effLtv);
-    chartBg.push(exposure >= 0 ? 'rgba(0,230,138,.4)' : 'rgba(255,59,92,.4)');
-    chartBd.push(exposure >= 0 ? '#00e68a' : '#ff3b5c');
-
-    if (exposure > bestExpo) bestExpo = exposure;
-    if (exposure < worstExpo) worstExpo = exposure;
+    // (chart data handled in consolidated section below)
   });
 
-  // Update summary
-  $('simBest').textContent = bestExpo > -Infinity ? (bestExpo >= 0 ? '+' : '') + 'R$ ' + fmtK(Math.abs(bestExpo)) : '--';
-  $('simBest').style.color = bestExpo >= 0 ? 'var(--green)' : 'var(--red)';
-  $('simWorst').textContent = worstExpo < Infinity ? (worstExpo >= 0 ? '+' : '-') + 'R$ ' + fmtK(Math.abs(worstExpo)) : '--';
-  $('simWorst').style.color = worstExpo >= 0 ? 'var(--green)' : 'var(--red)';
-  $('simIdeal').textContent = '₮ ' + fmtK(idealBtcUsdt);
-  $('simLiqPrice').textContent = '₮ ' + fmtK(liqPriceUsdt);
+  // Update summary — best/worst
+  if (bestRow) {
+    $('simBest').textContent = bestRow.btcNeeded.toFixed(6) + ' BTC';
+    $('simBest').style.color = 'var(--green)';
+    $('simBestSub').textContent = 'LTV ' + bestRow.ltvBybit.toFixed(1) + '% · Col R$' + fmtK(bestRow.simColBrl);
+  }
+  if (worstRow) {
+    $('simWorst').textContent = worstRow.btcNeeded.toFixed(6) + ' BTC';
+    $('simWorst').style.color = worstRow.ltvBybit >= 85 ? 'var(--red)' : 'var(--orange)';
+    $('simWorstSub').textContent = 'LTV ' + worstRow.ltvBybit.toFixed(1) + '% · Col R$' + fmtK(worstRow.simColBrl);
+  }
 
-  // Update chart
+  // ═══ UPDATE CONSOLIDATED CHART — Power BI Style ═══
   if (simChart) {
-    simChart.data.labels = chartLabels;
-    simChart.data.datasets[0].data = chartExposure;
-    simChart.data.datasets[0].backgroundColor = chartBg;
-    simChart.data.datasets[0].borderColor = chartBd;
-    simChart.data.datasets[1].data = chartLtv;
+    // Merge simulator data + stress test data into unified chart
+    const allPoints = [];
+
+    // Add simulator scenarios
+    sorted.forEach(row => {
+      if (row.btc <= 0 || row.usdt <= 0) return;
+      const btcNeeded = debtUsdt / (ltvTarget * row.btc);
+      const ltvBybit = (debtUsdt / (currentBtcLocked * row.btc)) * 100;
+      allPoints.push({
+        label: '₮' + fmtK(row.btc) + '\nR$' + row.usdt.toFixed(2),
+        sortKey: row.btc,
+        simBtc: btcNeeded,
+        stressBtc: null,
+        ltv: ltvBybit,
+        source: 'sim'
+      });
+    });
+
+    // Add stress test scenarios (if available)
+    const stressData = window._stressTestData || [];
+    stressData.forEach(s => {
+      // Check if a similar BTC price already exists from simulator
+      const exists = allPoints.find(p => Math.abs(p.sortKey - s.btcUsdt) / s.btcUsdt < 0.02);
+      if (exists) {
+        // Merge into existing point
+        exists.stressBtc = s.btcNeeded;
+        if (!exists.label.includes(s.label)) exists.label += '\n' + s.label;
+      } else {
+        allPoints.push({
+          label: s.label + '\n₮' + fmtK(s.btcUsdt),
+          sortKey: s.btcUsdt,
+          simBtc: null,
+          stressBtc: s.btcNeeded,
+          ltv: s.ltvPct,
+          source: 'stress'
+        });
+      }
+    });
+
+    // Sort all by BTC price
+    allPoints.sort((a, b) => a.sortKey - b.sortKey);
+
+    const labels = allPoints.map(p => p.label);
+    const simBars = allPoints.map(p => p.simBtc);
+    const stressBars = allPoints.map(p => p.stressBtc);
+    const ltvLine = allPoints.map(p => p.ltv);
+
+    // Color sim bars by LTV risk
+    const simBg = allPoints.map(p => {
+      if (p.simBtc === null) return 'transparent';
+      const l = p.ltv;
+      return l >= 92 ? 'rgba(255,59,92,.6)' : l >= 85 ? 'rgba(255,159,67,.5)' : l >= 65 ? 'rgba(240,185,11,.45)' : 'rgba(0,230,138,.45)';
+    });
+    const simBd = simBg.map(c => c === 'transparent' ? 'transparent' : c.replace(/[\d.]+\)$/, '1)'));
+
+    // LTV point colors
+    const ltvPointColors = allPoints.map(p => {
+      const l = p.ltv;
+      return l >= 92 ? '#ff3b5c' : l >= 85 ? '#ff9f43' : l >= 65 ? '#f0b90b' : '#00e68a';
+    });
+
+    simChart.data.labels = labels;
+    simChart.data.datasets[0].data = simBars;
+    simChart.data.datasets[0].backgroundColor = simBg;
+    simChart.data.datasets[0].borderColor = simBd;
+    simChart.data.datasets[1].data = stressBars;
+    simChart.data.datasets[2].data = ltvLine;
+    simChart.data.datasets[2].pointBackgroundColor = ltvPointColors;
     simChart.update('none');
   }
 }
 
+// ── Manual Add ──
+function simAddManual() {
+  const btc = parseFloat($('simInBtc').value);
+  const usdt = parseFloat($('simInUsdt').value);
+  if (!btc || btc <= 0) { $('simInBtc').focus(); return; }
+  if (!usdt || usdt <= 0) { $('simInUsdt').focus(); return; }
+  simAddRow(btc, usdt);
+}
+
+// ── Quick % buttons ──
+function simAddBtcPct(pct) {
+  const curBtc = parseFloat($('inBtc').value) || 100000;
+  const curUsdt = parseFloat($('inUsdt').value) || 5.24;
+  simAddRow(Math.round(curBtc * (1 + pct / 100)), curUsdt);
+}
+function simAddUsdtPct(pct) {
+  const curBtc = parseFloat($('inBtc').value) || 100000;
+  const curUsdt = parseFloat($('inUsdt').value) || 5.24;
+  simAddRow(curBtc, parseFloat((curUsdt * (1 + pct / 100)).toFixed(2)));
+}
+
+// ── Preset Scenarios ──
 function simLoadPreset(type) {
-  const current = parseFloat($('inBtc').value) || 100000;
+  const btc = parseFloat($('inBtc').value) || 100000;
+  const usdt = parseFloat($('inUsdt').value) || 5.24;
   simRows = [];
   simIdCounter = 0;
 
   const presets = {
-    bear: [current * 0.4, current * 0.5, current * 0.6, current * 0.7, current * 0.8, current],
-    correction: [current * 0.75, current * 0.80, current * 0.85, current * 0.90, current * 0.95, current],
-    range: [current * 0.92, current * 0.95, current * 0.98, current, current * 1.02, current * 1.05, current * 1.08],
-    bull: [current, current * 1.10, current * 1.20, current * 1.30, current * 1.50, current * 2.0],
-    extreme: [current * 0.3, current * 0.5, current * 0.75, current, current * 1.5, current * 2.0, current * 3.0]
+    bearUsdUp: [
+      [btc * 0.70, usdt * 1.15],
+      [btc * 0.75, usdt * 1.10],
+      [btc * 0.80, usdt * 1.08],
+      [btc * 0.85, usdt * 1.05],
+      [btc * 0.90, usdt * 1.03],
+      [btc, usdt]
+    ],
+    bearUsdDown: [
+      [btc * 0.70, usdt * 0.90],
+      [btc * 0.75, usdt * 0.92],
+      [btc * 0.80, usdt * 0.95],
+      [btc * 0.85, usdt * 0.97],
+      [btc * 0.90, usdt * 0.98],
+      [btc, usdt]
+    ],
+    bullUsdUp: [
+      [btc, usdt],
+      [btc * 1.10, usdt * 1.05],
+      [btc * 1.20, usdt * 1.08],
+      [btc * 1.30, usdt * 1.10],
+      [btc * 1.50, usdt * 1.12],
+      [btc * 2.00, usdt * 1.15]
+    ],
+    bullUsdDown: [
+      [btc, usdt],
+      [btc * 1.10, usdt * 0.97],
+      [btc * 1.20, usdt * 0.95],
+      [btc * 1.30, usdt * 0.92],
+      [btc * 1.50, usdt * 0.90],
+      [btc * 2.00, usdt * 0.85]
+    ],
+    matrix: [
+      [btc * 0.70, usdt * 0.90],
+      [btc * 0.70, usdt],
+      [btc * 0.70, usdt * 1.10],
+      [btc * 0.85, usdt * 0.95],
+      [btc * 0.85, usdt],
+      [btc * 0.85, usdt * 1.05],
+      [btc, usdt * 0.90],
+      [btc, usdt],
+      [btc, usdt * 1.10],
+      [btc * 1.20, usdt * 0.95],
+      [btc * 1.20, usdt],
+      [btc * 1.20, usdt * 1.05]
+    ],
+    worst: [
+      [btc * 0.50, usdt * 0.85],
+      [btc * 0.60, usdt * 0.90],
+      [btc * 0.70, usdt * 0.92],
+      [btc * 0.75, usdt * 0.95],
+      [btc * 0.80, usdt * 0.97],
+      [btc * 0.85, usdt]
+    ],
+    best: [
+      [btc, usdt],
+      [btc * 1.20, usdt * 1.05],
+      [btc * 1.50, usdt * 1.10],
+      [btc * 2.00, usdt * 1.15],
+      [btc * 2.50, usdt * 1.20],
+      [btc * 3.00, usdt * 1.25]
+    ]
   };
 
-  (presets[type] || presets.range).forEach(p => {
-    simRows.push({ id: simIdCounter++, price: Math.round(p) });
+  (presets[type] || presets.matrix).forEach(([b, u]) => {
+    simRows.push({ id: simIdCounter++, btc: Math.round(b), usdt: parseFloat(u.toFixed(2)) });
   });
 
   simRenderRows();
@@ -1371,56 +1702,17 @@ function simReset() {
   simRows = [];
   simIdCounter = 0;
   $('simRows').innerHTML = '';
+  $('simCount').textContent = '0 cenários';
   if (simChart) {
     simChart.data.labels = [];
     simChart.data.datasets[0].data = [];
     simChart.data.datasets[1].data = [];
     simChart.update('none');
   }
-  $('simBest').textContent = '--';
-  $('simWorst').textContent = '--';
-  $('simIdeal').textContent = '--';
+  $('simCurrent').textContent = '--'; $('simCurrentSub').textContent = '--';
+  $('simBest').textContent = '--'; $('simBestSub').textContent = '--';
+  $('simWorst').textContent = '--'; $('simWorstSub').textContent = '--';
   $('simLiqPrice').textContent = '--';
-}
-
-// Quick Add — single price or comma-separated list
-function simQuickAdd() {
-  const inp = $('simQuickInput');
-  const raw = inp.value.trim();
-  if (!raw) return;
-  // Parse comma/space separated values
-  const prices = raw.split(/[,;\s]+/).map(s => parseFloat(s.replace(/[^\d.]/g, ''))).filter(p => p > 0);
-  if (!prices.length) return;
-  prices.forEach(p => simAddRow(Math.round(p)));
-  inp.value = '';
-  inp.focus();
-}
-
-// Add price by percentage offset from current
-function simAddPct(pct) {
-  const current = parseFloat($('inBtc').value) || 100000;
-  const price = Math.round(current * (1 + pct / 100));
-  // Check if similar price already exists (within 0.5%)
-  const exists = simRows.some(r => Math.abs(r.price - price) / price < 0.005);
-  if (!exists) {
-    simAddRow(price);
-  }
-}
-
-// Generate range of prices from A to B in N steps
-function simGenerateRange() {
-  const from = parseFloat($('simRangeFrom').value);
-  const to = parseFloat($('simRangeTo').value);
-  const steps = parseInt($('simRangeSteps').value) || 6;
-  if (!from || !to || from <= 0 || to <= 0) return;
-  const lo = Math.min(from, to);
-  const hi = Math.max(from, to);
-  const step = (hi - lo) / (steps - 1);
-  for (let i = 0; i < steps; i++) {
-    const price = Math.round(lo + step * i);
-    const exists = simRows.some(r => Math.abs(r.price - price) / price < 0.005);
-    if (!exists) simAddRow(price);
-  }
 }
 
 // Hook simulator recalc to main calculation
