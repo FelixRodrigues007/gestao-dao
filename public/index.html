@@ -258,6 +258,13 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 @media(max-width:1200px){.sim-row{grid-template-columns:100px 80px 90px 100px 90px 90px 80px 36px}.sim-summary{grid-template-columns:1fr 1fr}}
 @media(max-width:768px){.sim-row{grid-template-columns:90px 70px 1fr 1fr 40px}.sim-row .sim-cell:nth-child(3),.sim-row .sim-cell:nth-child(5),.sim-row .sim-cell:nth-child(6){display:none}.sim-summary{grid-template-columns:1fr}}
 
+/* Rate buttons */
+.rate-btn{background:var(--steel);border:1px solid var(--edge);border-radius:var(--rs);padding:5px 4px;font-family:var(--mono);font-size:9px;color:var(--silver);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .2s}
+.rate-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-10)}
+.rate-btn .rate-val{font-size:8px;color:var(--mist);font-weight:700}
+.rate-btn:hover .rate-val{color:var(--gold)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
 /* Responsive */
 @media(max-width:1200px){
   .main{grid-template-columns:1fr;height:auto}
@@ -325,7 +332,9 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
         </div>
 
         <div class="divider" style="margin:12px 0"></div>
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--ash);margin-bottom:10px;display:flex;align-items:center;gap:6px">💰 Juros Bybit<span style="font-size:8px;padding:2px 5px;background:var(--gold-10);color:var(--gold);border-radius:3px">NOVO</span><span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box">Configura os <strong>juros do empréstimo Bybit</strong>. <em>Flexível</em> = juros compostos por hora (muda a cada hora). <em>Fixo</em> = juros simples por prazo definido (7, 30, 90 ou 180 dias). Esses juros afetam TODOS os cálculos do dashboard.</span></span></div>
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--ash);margin-bottom:10px;display:flex;align-items:center;gap:6px">💰 Juros Bybit<span id="rateLiveBadge" style="display:none;font-size:7px;padding:2px 6px;background:rgba(0,230,138,.15);color:#00e68a;border-radius:3px;animation:pulse 2s infinite">● LIVE</span><span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box"><strong>Juros do empréstimo Bybit</strong> puxados em tempo real via API pública. <em>Flexível</em> = juros compostos por hora. <em>Fixo</em> = juros simples por prazo (7-180 dias). Clique <strong>Buscar Taxas</strong> para atualizar.</span></span></div>
+
+        <button class="btn btn-sm" onclick="fetchBybitLoanRates()" style="width:100%;margin-bottom:10px;background:rgba(77,166,255,.1);border:1px solid rgba(77,166,255,.3);color:#4da6ff;font-size:10px;padding:6px;letter-spacing:.5px">📡 Buscar Taxas Bybit</button>
 
         <div class="field">
           <div class="field-label"><span>Taxa Anual (APR %)</span><span class="field-val" id="fApr">--</span></div>
@@ -343,8 +352,14 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
           </div>
         </div>
 
+        <!-- Fixed Rate Quick Select -->
+        <div id="fixedRateWrap" style="display:none;margin-top:8px">
+          <div style="font-size:9px;color:var(--mist);margin-bottom:5px">Taxas fixas disponíveis (menor do mercado):</div>
+          <div id="fixedRateBtns" style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px"></div>
+        </div>
+
         <!-- Interest Preview -->
-        <div style="background:var(--deep);border:1px solid var(--edge);border-radius:var(--rs);padding:10px 12px;margin-top:6px">
+        <div style="background:var(--deep);border:1px solid var(--edge);border-radius:var(--rs);padding:10px 12px;margin-top:8px">
           <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;color:var(--mist)">Juros Total</span><span style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--orange)" id="prevInterest">--</span></div>
           <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;color:var(--mist)">Dívida Total (Principal + Juros)</span><span style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--red)" id="prevDebt">--</span></div>
           <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:10px;color:var(--mist)">Custo por Hora</span><span style="font-family:var(--mono);font-size:10px;color:var(--ash)" id="prevHourly">--</span></div>
@@ -571,17 +586,12 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
             <div class="sim-sum-card c4"><div class="sim-sum-label">Liquidação Bybit</div><div class="sim-sum-val" id="simLiqPrice">--</div><div style="font-size:9px;color:var(--mist);margin-top:2px">LTV 92% · BTC/USDT</div></div>
           </div>
 
-          <!-- Consolidated Chart — Power BI Style -->
-          <div style="background:var(--deep);border:1.5px solid var(--edge);border-radius:var(--r);padding:16px;margin-top:16px">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <!-- Consolidated Chart — Area Style -->
+          <div style="background:var(--deep);border:1.5px solid var(--edge);border-radius:var(--r);padding:18px 18px 12px;margin-top:16px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
               <div>
-                <div style="font-size:12px;font-weight:700;color:var(--white)">📊 Painel Consolidado de Cenários<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box"><strong>Gráfico unificado</strong> que combina seus cenários simulados + stress test em uma única visualização. Barras = BTC necessário. Linha roxa = LTV Bybit. <em>Linhas pontilhadas</em> marcam os limites de Margin Call (85%) e Liquidação (92%).</span></span></div>
-                <div style="font-size:10px;color:var(--mist);margin-top:2px">Simulador + Stress Test · Dual Axis · LTV Bybit</div>
-              </div>
-              <div style="display:flex;gap:4px">
-                <span style="display:inline-flex;align-items:center;gap:4px;font-size:9px;color:var(--mist)"><span style="width:10px;height:10px;border-radius:2px;background:var(--gold)"></span>Simulado</span>
-                <span style="display:inline-flex;align-items:center;gap:4px;font-size:9px;color:var(--mist)"><span style="width:10px;height:10px;border-radius:2px;background:var(--blue)"></span>Stress Test</span>
-                <span style="display:inline-flex;align-items:center;gap:4px;font-size:9px;color:var(--mist)"><span style="width:10px;height:3px;background:var(--purple)"></span>LTV %</span>
+                <div style="font-size:13px;font-weight:700;color:var(--white)">📊 Painel Consolidado<span class="tip-wrap"><span class="tip-btn">?</span><span class="tip-box"><strong>Áreas que se cruzam:</strong> Dourado = cenários simulados. Azul = stress test. Roxo tracejado = LTV Bybit. Linhas pontilhadas = <em>Margin Call (85%)</em> e <em>Liquidação (92%)</em>. Passe o mouse para detalhes.</span></span></div>
+                <div style="font-size:10px;color:var(--mist);margin-top:3px">Simulador × Stress Test · Áreas Cruzadas · LTV Bybit %</div>
               </div>
             </div>
             <div class="sim-chart-wrap"><canvas id="simChart"></canvas></div>
@@ -698,6 +708,9 @@ async function fetchAllPrices() {
     addAlert('ok', `Cotações atualizadas — BTC ₮${fmt(parseFloat(btcTicker.lastPrice))} | ${new Date().toLocaleTimeString('pt-BR')}`);
     $('lastUpdate').textContent = new Date().toLocaleTimeString('pt-BR');
 
+    // Fetch loan rates alongside prices
+    fetchBybitLoanRates();
+
     btn.textContent = '✅ Atualizado!';
     setTimeout(() => { btn.textContent = '⚡ Buscar Cotações Agora'; btn.style.opacity = '1'; }, 2000);
   } catch(e) {
@@ -710,6 +723,101 @@ async function fetchAllPrices() {
   calculateAll();
 }
 
+// ═══════════════════════════════════════════════════════
+// BYBIT LOAN RATES (Public - No Auth)
+// ═══════════════════════════════════════════════════════
+let bybitRates = null;
+
+async function fetchBybitLoanRates() {
+  try {
+    const r = await fetch('https://api.bybit.com/v5/crypto-loan-common/loanable-data?currency=USDT');
+    const d = await r.json();
+    if (d.retCode !== 0) throw new Error(d.retMsg);
+    const info = d.result.list[0];
+    if (!info) throw new Error('Sem dados USDT');
+
+    bybitRates = {
+      flexible: parseFloat(info.flexibleAnnualizedInterestRate || '0') * 100, // decimal → %
+      fixed7: info.annualizedInterestRate7D ? parseFloat(info.annualizedInterestRate7D) * 100 : null,
+      fixed14: info.annualizedInterestRate14D ? parseFloat(info.annualizedInterestRate14D) * 100 : null,
+      fixed30: info.annualizedInterestRate30D ? parseFloat(info.annualizedInterestRate30D) * 100 : null,
+      fixed60: info.annualizedInterestRate60D ? parseFloat(info.annualizedInterestRate60D) * 100 : null,
+      fixed90: info.annualizedInterestRate90D ? parseFloat(info.annualizedInterestRate90D) * 100 : null,
+      fixed180: info.annualizedInterestRate180D ? parseFloat(info.annualizedInterestRate180D) * 100 : null,
+      ts: Date.now()
+    };
+
+    // Auto-fill APR based on current loan type
+    applyBybitRate();
+    updateRateButtons();
+    addAlert('ok', `Juros Bybit atualizados — Flexível ${bybitRates.flexible.toFixed(2)}% APR`);
+  } catch(e) {
+    console.warn('Loan rates fetch failed:', e);
+    addAlert('warn', `Juros Bybit indisponível: ${e.message}. Use valor manual.`);
+  }
+}
+
+function applyBybitRate() {
+  if (!bybitRates) return;
+  const days = parseInt($('inDays').value) || 90;
+
+  if (loanType === 'flexible') {
+    $('inApr').value = bybitRates.flexible.toFixed(2);
+  } else {
+    // Pick closest fixed rate
+    const rate = getFixedRateForDays(days);
+    if (rate !== null) $('inApr').value = rate.toFixed(2);
+  }
+
+  // Update live badge
+  const badge = $('rateLiveBadge');
+  if (badge) {
+    badge.style.display = 'inline-flex';
+    badge.textContent = '● LIVE';
+  }
+
+  calculateAll();
+}
+
+function getFixedRateForDays(days) {
+  if (!bybitRates) return null;
+  if (days <= 7) return bybitRates.fixed7;
+  if (days <= 14) return bybitRates.fixed14;
+  if (days <= 30) return bybitRates.fixed30;
+  if (days <= 60) return bybitRates.fixed60;
+  if (days <= 90) return bybitRates.fixed90;
+  return bybitRates.fixed180;
+}
+
+function updateRateButtons() {
+  if (!bybitRates) return;
+  const container = $('fixedRateBtns');
+  if (!container) return;
+
+  const durations = [
+    { d: 7, rate: bybitRates.fixed7, label: '7D' },
+    { d: 14, rate: bybitRates.fixed14, label: '14D' },
+    { d: 30, rate: bybitRates.fixed30, label: '30D' },
+    { d: 60, rate: bybitRates.fixed60, label: '60D' },
+    { d: 90, rate: bybitRates.fixed90, label: '90D' },
+    { d: 180, rate: bybitRates.fixed180, label: '180D' }
+  ];
+
+  container.innerHTML = durations.map(({ d, rate, label }) => {
+    const available = rate !== null && rate > 0;
+    const pct = available ? rate.toFixed(1) + '%' : '—';
+    const cls = available ? '' : 'style="opacity:.35;pointer-events:none"';
+    return `<button class="rate-btn" onclick="selectFixedRate(${d},${rate})" ${cls} title="${label}: ${pct} APR">${label}<span class="rate-val">${pct}</span></button>`;
+  }).join('');
+}
+
+function selectFixedRate(days, rate) {
+  if (rate === null) return;
+  setLoanType('fixed');
+  $('inDays').value = days;
+  $('inApr').value = rate.toFixed(2);
+  calculateAll();
+}
 // ═══════════════════════════════════════════════════════
 // BYBIT WEBSOCKET (Public Spot Ticker)
 // ═══════════════════════════════════════════════════════
@@ -983,6 +1091,11 @@ function setLoanType(type) {
   $('btnFixed').style.background = type === 'fixed' ? 'var(--gold-10)' : 'var(--steel)';
   $('btnFixed').style.borderColor = type === 'fixed' ? 'var(--gold)' : 'var(--edge)';
   $('btnFixed').style.color = type === 'fixed' ? 'var(--gold)' : 'var(--silver)';
+  // Show/hide fixed rate buttons
+  const fxBtns = $('fixedRateWrap');
+  if (fxBtns) fxBtns.style.display = type === 'fixed' ? 'block' : 'none';
+  // Auto-apply Bybit rate
+  applyBybitRate();
   calculateAll();
 }
 
@@ -1215,6 +1328,8 @@ function updateScenarios(btcUsdt, usdtBrl, loan, ltv, baseBtc, totalDebtBrl) {
 // ═══════════════════════════════════════════════════════
 ['inBtc','inUsdt','inLoan','inApr','inDays'].forEach(id => $(id).addEventListener('input', calculateAll));
 $('inLtv').addEventListener('input', calculateAll);
+// Auto-apply Bybit fixed rate when days change
+$('inDays').addEventListener('change', () => { if (loanType === 'fixed' && bybitRates) applyBybitRate(); });
 
 $('btnSound').addEventListener('click', () => {
   S.sound = !S.sound;
@@ -1245,73 +1360,148 @@ let simIdCounter = 0;
 function initSimChart() {
   const ctx = $('simChart').getContext('2d');
 
-  // Threshold line plugin
+  // ── Gradient factory ──
+  function makeGradient(ctx, color1, color2, alpha1, alpha2) {
+    const g = ctx.createLinearGradient(0, 0, 0, 380);
+    g.addColorStop(0, color1.replace(')', ',' + alpha1 + ')').replace('rgb', 'rgba'));
+    g.addColorStop(1, color2.replace(')', ',' + alpha2 + ')').replace('rgb', 'rgba'));
+    return g;
+  }
+
+  // ── Custom plugins ──
   const thresholdPlugin = {
     id: 'thresholds',
     afterDraw(chart) {
       const { ctx, chartArea, scales } = chart;
       if (!scales.y1) return;
-      const drawLine = (val, color, label) => {
+      const drawLine = (val, color, label, dash) => {
         const y = scales.y1.getPixelForValue(val);
         if (y < chartArea.top || y > chartArea.bottom) return;
         ctx.save();
-        ctx.setLineDash([6, 4]);
+        ctx.setLineDash(dash);
         ctx.strokeStyle = color;
-        ctx.lineWidth = 1.5;
+        ctx.lineWidth = 1.2;
+        ctx.globalAlpha = 0.7;
         ctx.beginPath();
         ctx.moveTo(chartArea.left, y);
         ctx.lineTo(chartArea.right, y);
         ctx.stroke();
+        ctx.globalAlpha = 1;
         ctx.setLineDash([]);
+        // Label pill
+        const text = label;
+        ctx.font = 'bold 8px "Space Mono"';
+        const tw = ctx.measureText(text).width + 10;
+        const px = chartArea.right - tw - 6;
+        const py = y - 12;
         ctx.fillStyle = color;
-        ctx.font = 'bold 9px "Space Mono"';
-        ctx.textAlign = 'right';
-        ctx.fillText(label, chartArea.right - 4, y - 4);
+        ctx.globalAlpha = 0.15;
+        ctx.beginPath();
+        ctx.fillRect(px, py, tw, 16);
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = color;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, px + 5, py + 8);
         ctx.restore();
       };
-      drawLine(85, '#ff9f43', '⚠ MARGIN CALL 85%');
-      drawLine(92, '#ff3b5c', '💀 LIQUIDAÇÃO 92%');
+      drawLine(85, '#ff9f43', 'MARGIN 85%', [4, 3]);
+      drawLine(92, '#ff3b5c', 'LIQUID. 92%', [6, 3]);
+      // Target LTV line
+      const targetLtv = parseFloat($('inLtv').value) || 60;
+      drawLine(targetLtv, '#00e68a', 'TARGET ' + targetLtv + '%', [2, 4]);
     }
   };
 
+  const hoverHighlight = {
+    id: 'hoverHighlight',
+    afterDraw(chart) {
+      if (chart.tooltip?._active?.length) {
+        const { ctx, chartArea } = chart;
+        const x = chart.tooltip._active[0].element.x;
+        ctx.save();
+        ctx.strokeStyle = 'rgba(240,185,11,0.3)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(x, chartArea.top);
+        ctx.lineTo(x, chartArea.bottom);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+  };
+
+  // ── Gradients ──
+  const goldGrad = ctx.createLinearGradient(0, 0, 0, 380);
+  goldGrad.addColorStop(0, 'rgba(240,185,11,0.35)');
+  goldGrad.addColorStop(0.6, 'rgba(240,185,11,0.08)');
+  goldGrad.addColorStop(1, 'rgba(240,185,11,0)');
+
+  const blueGrad = ctx.createLinearGradient(0, 0, 0, 380);
+  blueGrad.addColorStop(0, 'rgba(77,166,255,0.3)');
+  blueGrad.addColorStop(0.6, 'rgba(77,166,255,0.06)');
+  blueGrad.addColorStop(1, 'rgba(77,166,255,0)');
+
+  const purpleGrad = ctx.createLinearGradient(0, 0, 0, 380);
+  purpleGrad.addColorStop(0, 'rgba(167,139,250,0.25)');
+  purpleGrad.addColorStop(0.5, 'rgba(167,139,250,0.06)');
+  purpleGrad.addColorStop(1, 'rgba(167,139,250,0)');
+
   simChart = new Chart(ctx, {
-    type: 'bar',
-    plugins: [thresholdPlugin],
+    type: 'line',
+    plugins: [thresholdPlugin, hoverHighlight],
     data: {
       labels: [],
       datasets: [
         {
           label: 'BTC Simulado',
           data: [],
-          backgroundColor: [],
-          borderColor: [],
-          borderWidth: 1.5,
-          borderRadius: 5,
+          borderColor: '#f0b90b',
+          backgroundColor: goldGrad,
+          borderWidth: 2.5,
+          pointRadius: 0,
+          pointHoverRadius: 7,
+          pointHoverBackgroundColor: '#f0b90b',
+          pointHoverBorderColor: '#fff',
+          pointHoverBorderWidth: 2,
+          tension: 0.4,
+          fill: true,
           yAxisID: 'y',
           order: 2
         },
         {
           label: 'BTC Stress Test',
           data: [],
-          backgroundColor: 'rgba(77,166,255,0.35)',
-          borderColor: 'rgba(77,166,255,0.8)',
-          borderWidth: 1.5,
-          borderRadius: 5,
+          borderColor: '#4da6ff',
+          backgroundColor: blueGrad,
+          borderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: '#4da6ff',
+          pointHoverBorderColor: '#fff',
+          pointHoverBorderWidth: 2,
+          tension: 0.4,
+          fill: true,
           yAxisID: 'y',
           order: 3
         },
         {
           label: 'LTV Bybit %',
           data: [],
-          type: 'line',
           borderColor: '#a78bfa',
-          backgroundColor: 'rgba(167,139,250,0.08)',
-          borderWidth: 2.5,
-          pointRadius: 5,
+          backgroundColor: purpleGrad,
+          borderWidth: 2,
+          borderDash: [6, 3],
+          pointRadius: 4,
           pointBackgroundColor: [],
-          pointBorderColor: '#a78bfa',
-          pointBorderWidth: 2,
-          tension: 0.3,
+          pointBorderColor: 'rgba(167,139,250,0.5)',
+          pointBorderWidth: 1,
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: '#a78bfa',
+          pointHoverBorderColor: '#fff',
+          pointHoverBorderWidth: 3,
+          tension: 0.4,
           fill: true,
           yAxisID: 'y1',
           order: 1
@@ -1322,49 +1512,103 @@ function initSimChart() {
       responsive: true,
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
+      hover: { mode: 'index', intersect: false },
       plugins: {
         legend: {
-          labels: { color: '#64748b', font: chartFont, boxWidth: 12, padding: 16, usePointStyle: false }
+          position: 'top',
+          align: 'end',
+          labels: {
+            color: '#94a3b8',
+            font: { family: 'Space Mono', size: 10 },
+            boxWidth: 14, boxHeight: 3,
+            padding: 20,
+            usePointStyle: false
+          }
         },
         tooltip: {
-          backgroundColor: '#0c1018', titleFont: chartFont, bodyFont: chartFont,
-          borderColor: '#283650', borderWidth: 1, padding: 12,
+          backgroundColor: 'rgba(6,8,13,0.95)',
+          titleFont: { family: 'DM Sans', size: 12, weight: '700' },
+          titleColor: '#f1f5f9',
+          bodyFont: { family: 'Space Mono', size: 11 },
+          bodyColor: '#94a3b8',
+          borderColor: 'rgba(240,185,11,0.2)',
+          borderWidth: 1,
+          padding: 14,
+          cornerRadius: 8,
+          displayColors: true,
+          boxWidth: 8, boxHeight: 8, boxPadding: 6,
           callbacks: {
-            title: ctx => ctx[0]?.label || '',
+            title: ctx => {
+              const lbl = ctx[0]?.label || '';
+              return lbl.replace(/\n/g, '  ·  ');
+            },
             label: function(ctx) {
-              if (ctx.datasetIndex === 0) return '  🟡 Simulado: ' + ctx.parsed.y.toFixed(6) + ' BTC';
-              if (ctx.datasetIndex === 1) return '  🔵 Stress: ' + ctx.parsed.y.toFixed(6) + ' BTC';
+              if (ctx.raw === null || ctx.raw === undefined) return null;
+              if (ctx.datasetIndex === 0) return ' Simulado:  ' + ctx.parsed.y.toFixed(6) + ' BTC';
+              if (ctx.datasetIndex === 1) return ' Stress:     ' + ctx.parsed.y.toFixed(6) + ' BTC';
               if (ctx.datasetIndex === 2) {
                 const v = ctx.parsed.y;
-                const icon = v >= 92 ? '💀' : v >= 85 ? '⚠' : v >= 65 ? '🟡' : '✅';
-                return '  ' + icon + ' LTV: ' + v.toFixed(1) + '%';
+                const tag = v >= 92 ? '💀 LIQUIDAÇÃO' : v >= 85 ? '⚠️ MARGIN CALL' : v >= 65 ? '⚡ Atenção' : '✅ Seguro';
+                return ' LTV:         ' + v.toFixed(1) + '%  ' + tag;
               }
+            },
+            labelColor: function(ctx) {
+              const colors = ['#f0b90b', '#4da6ff', '#a78bfa'];
+              return { borderColor: colors[ctx.datasetIndex], backgroundColor: colors[ctx.datasetIndex], borderWidth: 0, borderRadius: 2 };
             }
           }
         }
       },
       scales: {
         x: {
-          ticks: { color: '#3a4d6e', font: chartFont, maxRotation: 45 },
-          grid: { display: false }
+          ticks: {
+            color: '#3a4d6e',
+            font: { family: 'Space Mono', size: 9 },
+            maxRotation: 45,
+            autoSkip: true,
+            maxTicksLimit: 15
+          },
+          grid: { color: 'rgba(40,54,80,.12)', lineWidth: 0.5 }
         },
         y: {
           position: 'left',
-          ticks: { color: '#64748b', font: chartFont, callback: v => v.toFixed(4) },
-          grid: { color: 'rgba(40,54,80,.3)' },
-          title: { display: true, text: 'BTC Necessário', color: '#f0b90b', font: { ...chartFont, weight: 'bold' } }
+          ticks: {
+            color: '#64748b',
+            font: { family: 'Space Mono', size: 10 },
+            callback: v => v.toFixed(3),
+            maxTicksLimit: 8
+          },
+          grid: { color: 'rgba(40,54,80,.2)', lineWidth: 0.5 },
+          title: {
+            display: true,
+            text: '₿ BTC Necessário',
+            color: '#f0b90b',
+            font: { family: 'DM Sans', size: 11, weight: '700' },
+            padding: 8
+          }
         },
         y1: {
           position: 'right',
           min: 0, max: 120,
           ticks: {
-            color: '#a78bfa', font: chartFont,
+            color: '#a78bfa',
+            font: { family: 'Space Mono', size: 10 },
             callback: v => v + '%',
-            stepSize: 20
+            stepSize: 20,
+            maxTicksLimit: 7
           },
           grid: { drawOnChartArea: false },
-          title: { display: true, text: 'LTV Bybit %', color: '#a78bfa', font: { ...chartFont, weight: 'bold' } }
+          title: {
+            display: true,
+            text: 'LTV Bybit %',
+            color: '#a78bfa',
+            font: { family: 'DM Sans', size: 11, weight: '700' },
+            padding: 8
+          }
         }
+      },
+      elements: {
+        line: { capBezierPoints: true }
       }
     }
   });
@@ -1572,15 +1816,7 @@ function simCalculate() {
     const stressBars = allPoints.map(p => p.stressBtc);
     const ltvLine = allPoints.map(p => p.ltv);
 
-    // Color sim bars by LTV risk
-    const simBg = allPoints.map(p => {
-      if (p.simBtc === null) return 'transparent';
-      const l = p.ltv;
-      return l >= 92 ? 'rgba(255,59,92,.6)' : l >= 85 ? 'rgba(255,159,67,.5)' : l >= 65 ? 'rgba(240,185,11,.45)' : 'rgba(0,230,138,.45)';
-    });
-    const simBd = simBg.map(c => c === 'transparent' ? 'transparent' : c.replace(/[\d.]+\)$/, '1)'));
-
-    // LTV point colors
+    // LTV point colors by risk zone
     const ltvPointColors = allPoints.map(p => {
       const l = p.ltv;
       return l >= 92 ? '#ff3b5c' : l >= 85 ? '#ff9f43' : l >= 65 ? '#f0b90b' : '#00e68a';
@@ -1588,8 +1824,6 @@ function simCalculate() {
 
     simChart.data.labels = labels;
     simChart.data.datasets[0].data = simBars;
-    simChart.data.datasets[0].backgroundColor = simBg;
-    simChart.data.datasets[0].borderColor = simBd;
     simChart.data.datasets[1].data = stressBars;
     simChart.data.datasets[2].data = ltvLine;
     simChart.data.datasets[2].pointBackgroundColor = ltvPointColors;
@@ -1707,6 +1941,7 @@ function simReset() {
     simChart.data.labels = [];
     simChart.data.datasets[0].data = [];
     simChart.data.datasets[1].data = [];
+    simChart.data.datasets[2].data = [];
     simChart.update('none');
   }
   $('simCurrent').textContent = '--'; $('simCurrentSub').textContent = '--';
@@ -1729,18 +1964,14 @@ window.addEventListener('load', () => {
   initCharts();
   initSimChart();
   calculateAll();
-  // Try WebSocket first
   connectWebSocket();
-  // Fetch REST as backup + kline data
   setTimeout(fetchAllPrices, 1500);
-  // Load default preset
-  simLoadPreset('correction');
-  // Enter key on quick input
-  $('simQuickInput').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); simQuickAdd(); }});
-  // Auto-fill range from/to based on current price
-  const cp = parseFloat($('inBtc').value) || 100000;
-  $('simRangeFrom').value = Math.round(cp * 0.5);
-  $('simRangeTo').value = Math.round(cp * 1.5);
+  simLoadPreset('matrix');
+  // Enter key on manual BTC input
+  const simBtcIn = $('simInBtc');
+  if (simBtcIn) simBtcIn.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); simAddManual(); }});
+  const simUsdtIn = $('simInUsdt');
+  if (simUsdtIn) simUsdtIn.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); simAddManual(); }});
 });
 </script>
 </body>
